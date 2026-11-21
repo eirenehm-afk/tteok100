@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>대한민국 떡볶이 성지순례 100</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+/* VOICE: 분식집 메뉴판처럼 밝고 귀엽게, 정보는 또렷하게
+   IDEA: 떡볶이 도장깨기 수첩 — 먹은 곳엔 도장이 찍힌다
+   PICTURE: 얼굴 달린 떡 캐릭터, 떡볶이 그릇, 지도 위 떡 마커
+   COLOUR and TYPE: 크림 바탕 + 고추장 빨강 + 어묵 노랑 / Jua 제목 + Gowun Dodum 본문
+   LAYOUT: PC는 지도|리스트 나란히, 모바일은 하나씩 + 하단 탭 */
+:root{color-scheme:light;--bg:#FFF9F3;--card:#fff;--ink:#2E1F1A;--mute:#8A7870;--line:#F1E3D8;--red:#E9432A;--red-d:#C93218;--red-l:#FFE7E0;--yel:#FFC234;--yel-l:#FFF2CC;--ok:#2E9E6A;--r:16px;--sh:0 4px 18px rgba(120,50,20,.08)}
+*{box-sizing:border-box;min-width:0}
+html,body,#root{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Gowun Dodum',system-ui,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent}
+h1,h2,h3,.jua,button,.btn{font-family:'Jua','Gowun Dodum',sans-serif;font-weight:400}
+button{font-size:16px;cursor:pointer;border:0;background:none;color:inherit}
+input,select,textarea{font:16px 'Gowun Dodum',sans-serif;color:var(--ink)}
+[hidden]{display:none!important}
+svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:0 20px;border-radius:14px;background:var(--red);color:#fff;font-size:17px;transition:transform .1s}
+.btn:active{transform:scale(.97)}.btn:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--yel);outline-offset:2px}
+.btn.ghost{background:var(--red-l);color:var(--red-d)}.btn.line{background:#fff;color:var(--ink);border:1.5px solid var(--line)}.btn.sm{min-height:36px;padding:0 14px;font-size:15px;border-radius:11px}
+.btn.block{width:100%}.btn[disabled]{opacity:.5;pointer-events:none}
+.field{display:block;margin-bottom:12px}.field>span{display:block;font-size:14px;color:var(--mute);margin-bottom:4px}
+.inp{width:100%;height:48px;padding:0 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff}
+.inp:focus{border-color:var(--red);outline:0}
+.err{color:var(--red-d);font-size:14px;min-height:20px;margin:2px 0 8px}
+.muted{color:var(--mute)}.small{font-size:14px}
+
+/* ---------- 로그인 ---------- */
+.auth{height:100%;overflow:auto;display:grid;place-items:center;padding:24px 16px;background:radial-gradient(circle at 20% 0%,#FFE3D6 0,transparent 45%),radial-gradient(circle at 100% 100%,#FFF0C4 0,transparent 40%),var(--bg)}
+.auth-card{width:min(400px,100%);background:#fff;border-radius:24px;box-shadow:var(--sh);padding:28px 24px 22px}
+.auth h1{font-size:28px;line-height:1.15;text-align:center;margin:6px 0 4px;text-wrap:balance}
+.auth h1 em{font-style:normal;color:var(--red)}
+.auth .sub{text-align:center;color:var(--mute);font-size:15px;margin:0 0 18px}
+.hero{display:block;width:190px;height:130px;margin:0 auto}
+.seg{display:flex;background:#F7EEE7;border-radius:12px;padding:3px;gap:3px}
+.seg button{flex:1;min-height:40px;border-radius:10px;font-size:15px;color:var(--mute);padding:0 10px;white-space:nowrap}
+.seg button.on{background:#fff;color:var(--red-d);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.linkbtn{display:block;margin:14px auto 0;color:var(--mute);font-size:15px;text-decoration:underline;text-underline-offset:3px;min-height:36px}
+.demo-hint{margin-top:12px;background:var(--yel-l);border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.5}
+
+/* ---------- 앱 틀 ---------- */
+.app{height:100%;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:14px;padding:10px max(2vw,14px);background:#fff;border-bottom:1px solid var(--line);flex:none}
+.brand{display:flex;align-items:center;gap:8px;font-family:'Jua';font-size:20px;white-space:nowrap}
+.brand svg{width:38px;height:26px}.brand em{font-style:normal;color:var(--red)}
+.tabs{display:flex;gap:4px;margin-left:12px}
+.tabs button{display:flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:12px;color:var(--mute);font-size:16px}
+.tabs button.on{background:var(--red-l);color:var(--red-d)}
+.mebtn{margin-left:auto;display:flex;align-items:center;gap:8px;min-height:40px;padding:0 6px 0 12px;border-radius:12px;border:1.5px solid var(--line);background:#fff}
+.mebtn .nk{font-family:'Jua';font-size:16px;max-width:9em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fam{font-size:13px;padding:3px 9px;border-radius:99px;background:var(--yel-l);color:#7A5600;white-space:nowrap;font-family:'Gowun Dodum'}
+.fam.wait{background:#EEE;color:#777}
+.badge{display:inline-grid;place-items:center;min-width:18px;height:18px;border-radius:9px;background:var(--red);color:#fff;font-size:11px;padding:0 5px;font-family:system-ui}
+main{flex:1;position:relative;overflow:hidden}
+.view{position:absolute;inset:0;display:flex;flex-direction:column}
+.bnav{display:none}
+.demo-bar{background:var(--yel-l);color:#6B4B00;font-size:13px;text-align:center;padding:5px 10px;flex:none}
+
+/* ---------- 탐색 ---------- */
+.chips{display:flex;gap:6px;overflow-x:auto;padding:12px max(2vw,14px) 8px;scrollbar-width:none;flex:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;min-height:38px;padding:0 14px;border-radius:99px;background:#fff;border:1.5px solid var(--line);font-size:15px;color:var(--ink);display:flex;align-items:center;gap:5px}
+.chip b{font-family:system-ui;font-weight:600;font-size:12px;color:var(--mute)}
+.chip.on{background:var(--red);border-color:var(--red);color:#fff}.chip.on b{color:#FFD9CF}
+.tools{display:flex;gap:8px;align-items:center;padding:0 max(2vw,14px) 10px;flex:none}
+.search{flex:1;position:relative;max-width:420px}
+.search .i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--mute);width:18px;height:18px}
+.search input{width:100%;height:42px;border-radius:12px;border:1.5px solid var(--line);padding:0 12px 0 38px;background:#fff}
+.search input:focus{outline:0;border-color:var(--red)}
+.fbtn{display:flex;align-items:center;gap:6px;min-height:42px;padding:0 14px;border-radius:12px;background:#fff;border:1.5px solid var(--line);font-size:15px;white-space:nowrap}
+.mv{display:none}
+.split{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:12px;padding:0 max(2vw,14px) 14px;min-height:0}
+.mapbox{position:relative;border-radius:var(--r);overflow:hidden;background:#F4EEE6;box-shadow:var(--sh)}
+#map{position:absolute;inset:0}
+.mapnote{position:absolute;left:10px;bottom:10px;z-index:900;background:rgba(255,255,255,.94);border-radius:10px;padding:6px 10px;font-size:12.5px;color:var(--mute);max-width:calc(100% - 20px)}
+.listbox{background:#fff;border-radius:var(--r);box-shadow:var(--sh);display:flex;flex-direction:column;min-height:0}
+.lhead{display:flex;justify-content:space-between;align-items:center;padding:12px 16px 8px;font-size:14px;color:var(--mute);border-bottom:1px solid var(--line)}
+.lhead b{font-family:'Jua';font-weight:400;color:var(--ink);font-size:17px}
+#list{list-style:none;margin:0;padding:4px 0;overflow:auto;flex:1}
+.it{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;cursor:pointer;border-bottom:1px solid #FAF2EC;position:relative}
+.it:hover{background:#FFFBF7}
+.rk{flex:none;width:30px;height:30px;border-radius:10px;background:var(--red-l);color:var(--red-d);display:grid;place-items:center;font-family:'Jua';font-size:15px;margin-top:1px}
+.it .bd{flex:1}
+.it .l1{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.it .l1 b{font-family:'Jua';font-weight:400;font-size:17.5px;line-height:1.25}
+.it .rg{font-size:13px;color:var(--mute);white-space:nowrap}
+.it .l2{font-size:14px;margin-top:3px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.sc{display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.sc .st{width:15px;height:15px;fill:var(--yel)}
+.sc em{font-style:normal;color:var(--mute);font-size:12.5px}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.tag{font-size:12.5px;padding:2px 8px;border-radius:99px;background:var(--red-l);color:var(--red-d);white-space:nowrap}
+.tag.g{background:#F3EEEA;color:#7d6c64}
+.stamp{flex:none;align-self:center;width:46px;height:46px;border-radius:50%;border:2.5px solid var(--red);color:var(--red);display:grid;place-items:center;font-family:'Jua';font-size:13px;transform:rotate(-14deg);opacity:.85;background:rgba(255,255,255,.6)}
+.empty{text-align:center;padding:40px 20px;color:var(--mute)}
+.empty svg{width:80px;height:54px;opacity:.7}
+.mk{width:36px;height:26px;filter:drop-shadow(0 2px 2px rgba(80,20,0,.3));transition:transform .15s}
+.mk:hover{transform:scale(1.2)}
+.mk.done{filter:drop-shadow(0 0 0 #fff) drop-shadow(0 2px 2px rgba(80,20,0,.3))}
+.mk.done::after{content:'';position:absolute;right:-3px;top:-4px;width:13px;height:13px;border-radius:50%;background:var(--yel) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12l4 4 8-8' stroke='%23fff' stroke-width='4' fill='none'/%3E%3C/svg%3E") center/10px no-repeat;border:1.5px solid #fff}
+
+/* ---------- 모달 ---------- */
+.ov{position:fixed;inset:0;background:rgba(46,31,26,.42);z-index:3000;display:grid;place-items:center;padding:16px;animation:fd .18s}
+.md{width:min(520px,100%);max-height:min(88dvh,780px);overflow:auto;background:#fff;border-radius:22px;box-shadow:0 20px 50px rgba(0,0,0,.2);animation:up .22s cubic-bezier(.2,.8,.3,1)}
+.md.sm{width:min(380px,100%)}
+.mh{position:sticky;top:0;background:#fff;z-index:2;display:flex;align-items:flex-start;gap:10px;padding:18px 18px 10px}
+.mh h2{margin:0;font-size:23px;line-height:1.2;flex:1}
+.mh .rg{font-size:14px;color:var(--mute);font-family:'Gowun Dodum';display:block;margin-top:3px}
+.x{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#F7EFE9;flex:none}
+.mb{padding:4px 18px 18px}
+.mf{position:sticky;bottom:0;background:#fff;padding:12px 18px 16px;display:flex;gap:8px;border-top:1px solid var(--line)}
+.mf .btn{flex:1}
+@keyframes fd{from{opacity:0}}@keyframes up{from{transform:translateY(24px);opacity:0}}
+.info{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;font-size:14.5px;margin:4px 0 14px;background:#FFFBF7;border-radius:14px;padding:12px 14px}
+.info dt{color:var(--mute);white-space:nowrap}.info dd{margin:0}
+.avg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.avg div{background:var(--yel-l);border-radius:14px;padding:10px 8px;text-align:center}
+.avg b{display:block;font-family:'Jua';font-weight:400;font-size:26px;line-height:1.1}
+.avg span{font-size:13px;color:#7A5600}
+.rv{border-top:1px solid var(--line);padding:12px 0}
+.rv .h{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.rv .h b{font-family:'Jua';font-weight:400;font-size:16px}
+.rv .c{margin:5px 0 0;font-size:15px}
+.sec-t{font-family:'Jua';font-size:17px;margin:6px 0 4px}
+.stars{display:inline-flex;gap:2px}
+.stars .st{width:15px;height:15px;fill:#EADCD2}.stars .st.on{fill:var(--yel)}
+.q{margin-bottom:14px}
+.q>.lb{font-family:'Jua';font-size:16px;margin-bottom:6px;display:flex;justify-content:space-between}
+.pick{display:flex;flex-wrap:wrap;gap:6px}
+.pick button{min-height:40px;padding:0 14px;border-radius:11px;border:1.5px solid var(--line);background:#fff;font-size:15px;font-family:'Gowun Dodum'}
+.pick button.on{border-color:var(--red);background:var(--red-l);color:var(--red-d)}
+.rate{display:flex;gap:4px}
+.rate button{width:44px;height:44px;display:grid;place-items:center;border-radius:10px}
+.rate .st{width:34px;height:34px;fill:#EFE3DA;transition:transform .1s}
+.rate button.on .st{fill:var(--yel)}
+.rate button:active .st{transform:scale(1.2)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.cnt{font-size:13px;color:var(--mute);font-family:system-ui}
+.note-pic{display:block;width:150px;height:100px;margin:6px auto 4px}
+.ctr{text-align:center}
+.ctr h2{font-size:23px;margin:6px 0}
+.req{display:flex;align-items:center;gap:8px;padding:10px 0;border-top:1px solid var(--line)}
+.req b{flex:1;font-family:'Jua';font-weight:400;font-size:17px}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 18px;border-radius:12px;z-index:5000;font-size:15px;animation:up .2s;max-width:90vw;text-align:center}
+.menu{position:fixed;z-index:3500;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.16);padding:6px;min-width:190px}
+.menu button{display:flex;width:100%;align-items:center;gap:10px;min-height:44px;padding:0 12px;border-radius:10px;font-family:'Gowun Dodum';font-size:15px;text-align:left}
+.menu button:hover{background:#FFF4EE}
+.menu .who{padding:8px 12px 10px;border-bottom:1px solid var(--line);margin-bottom:4px;font-size:13.5px;color:var(--mute)}
+.menu .who b{display:block;font-family:'Jua';font-weight:400;color:var(--ink);font-size:17px}
+
+/* ---------- 대시보드 ---------- */
+.dash{flex:1;overflow:auto;padding:14px max(2vw,14px) 20px}
+.dgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:1240px;margin:0 auto;height:100%;min-height:520px;grid-template-rows:repeat(2,minmax(0,1fr))}
+.card{background:#fff;border-radius:22px;box-shadow:var(--sh);padding:20px 22px;display:flex;flex-direction:column;min-height:0;overflow:hidden;position:relative}
+.card h3{margin:0 0 10px;font-size:18px;color:var(--mute);display:flex;justify-content:space-between;align-items:center}
+.big{font-family:'Jua';font-size:clamp(44px,6vw,76px);line-height:1;color:var(--red)}
+.big small{font-size:.42em;color:var(--mute)}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;flex:1;align-content:center}
+.pair .lb{font-size:15px;color:var(--mute);margin-bottom:6px}
+.bar{height:10px;border-radius:5px;background:#F6ECE4;margin-top:12px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--red);border-radius:5px;transition:width .6s}
+.bar.y i{background:var(--yel)}
+.pace{flex:1;display:flex;flex-direction:column;justify-content:center}
+.pace .msg{font-family:'Jua';font-size:clamp(22px,2.6vw,30px);margin:8px 0 4px;line-height:1.2}
+.top3{list-style:none;margin:0;padding:0;flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px}
+.top3 li{display:flex;align-items:center;gap:12px;cursor:pointer;padding:6px 4px;border-radius:12px}
+.top3 li:hover{background:#FFFBF7}
+.medal{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center;font-family:'Jua';font-size:18px;color:#fff;background:var(--yel)}
+.top3 li:nth-child(2) .medal{background:#C7B9B0}.top3 li:nth-child(3) .medal{background:#E3A27A}
+.top3 b{flex:1;font-family:'Jua';font-weight:400;font-size:clamp(17px,1.8vw,22px);line-height:1.2}
+.top3 .v{font-family:'Jua';font-size:22px;color:var(--red)}
+.again{flex:1;display:flex;flex-direction:column;justify-content:center;cursor:pointer}
+.again .nm{font-family:'Jua';font-size:clamp(26px,3.4vw,40px);line-height:1.15;margin:4px 0 6px}
+.deco{position:absolute;right:-6px;bottom:-8px;width:120px;height:82px;opacity:.16;pointer-events:none}
+
+/* ---------- 관리 ---------- */
+.adm{flex:1;overflow:auto;padding:14px max(2vw,14px) 24px}
+.agrid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:14px;max-width:1240px;margin:0 auto}
+.acard{background:#fff;border-radius:20px;box-shadow:var(--sh);padding:18px 20px}
+.acard h3{margin:0 0 10px;font-size:19px}
+.utable{width:100%;border-collapse:collapse;font-size:14.5px}
+.utable th{text-align:left;color:var(--mute);font-weight:400;font-size:13px;padding:6px 6px;border-bottom:1px solid var(--line)}
+.utable td{padding:9px 6px;border-bottom:1px solid #FAF2EC;vertical-align:middle}
+.pill{font-size:12.5px;padding:2px 8px;border-radius:99px;background:#EEE;white-space:nowrap}
+.pill.ok{background:#E2F5EC;color:#1F7A50}.pill.wait{background:var(--yel-l);color:#7A5600}.pill.no{background:var(--red-l);color:var(--red-d)}
+.drop{border:2px dashed #EBCFC0;border-radius:16px;padding:22px;text-align:center;color:var(--mute);cursor:pointer;display:block}
+.drop:hover{background:#FFFBF7}
+
+/* ---------- Leaflet 필수 스타일 (내장) ---------- */
+.leaflet-pane,.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-tile-container,.leaflet-pane>svg,.leaflet-pane>canvas,.leaflet-zoom-box,.leaflet-image-layer,.leaflet-layer{position:absolute;left:0;top:0}
+.leaflet-container{overflow:hidden;touch-action:none;font:12px/1.4 system-ui,sans-serif;background:#F4EEE6;outline:0}
+.leaflet-tile,.leaflet-marker-icon{user-select:none;-webkit-user-drag:none}
+.leaflet-container img.leaflet-tile{max-width:none!important;max-height:none!important;width:256px;height:256px}
+.leaflet-tile{visibility:hidden}.leaflet-tile-loaded{visibility:inherit}
+.leaflet-pane{z-index:400}.leaflet-tile-pane{z-index:200}.leaflet-overlay-pane{z-index:400}.leaflet-shadow-pane{z-index:500}.leaflet-marker-pane{z-index:600}.leaflet-tooltip-pane{z-index:650}.leaflet-popup-pane{z-index:700}
+.leaflet-zoom-animated{transform-origin:0 0}
+.leaflet-zoom-anim .leaflet-zoom-animated{transition:transform .25s cubic-bezier(0,0,.25,1)}
+.leaflet-zoom-anim .leaflet-tile,.leaflet-pan-anim .leaflet-tile{transition:none}
+.leaflet-fade-anim .leaflet-tile{will-change:opacity}
+.leaflet-interactive{cursor:pointer}.leaflet-grab{cursor:grab}.leaflet-dragging .leaflet-grab{cursor:grabbing}
+.leaflet-control{position:relative;z-index:800;pointer-events:auto;float:left;clear:both}
+.leaflet-top,.leaflet-bottom{position:absolute;z-index:1000;pointer-events:none}
+.leaflet-top{top:0}.leaflet-right{right:0}.leaflet-bottom{bottom:0}.leaflet-left{left:0}
+.leaflet-right .leaflet-control{float:right}.leaflet-top .leaflet-control{margin-top:10px}.leaflet-left .leaflet-control{margin-left:10px}.leaflet-right .leaflet-control{margin-right:10px}.leaflet-bottom .leaflet-control{margin-bottom:10px}
+.leaflet-bar{border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.15);overflow:hidden}
+.leaflet-bar a{display:block;width:38px;height:38px;line-height:38px;text-align:center;background:#fff;color:var(--ink);text-decoration:none;font:bold 20px system-ui}
+.leaflet-bar a+a{border-top:1px solid var(--line)}
+.leaflet-control-attribution{background:rgba(255,255,255,.75);padding:0 6px;font-size:10.5px;margin:0!important;color:#666}
+.leaflet-control-attribution a{color:#666}
+.leaflet-tooltip{position:absolute;padding:4px 9px;background:#fff;border-radius:8px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.18);font:14px 'Jua',sans-serif;color:var(--ink);pointer-events:none}
+
+/* ---------- 모바일 ---------- */
+@media (max-width:860px){
+  .tabs{display:none}
+  .brand{font-size:18px}.brand svg{width:32px;height:22px}
+  .top{padding:8px 12px}
+  .mebtn .nk{max-width:6em}
+  .bnav{display:flex;flex:none;background:#fff;border-top:1px solid var(--line);padding:4px 6px calc(4px + env(safe-area-inset-bottom))}
+  .bnav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:52px;justify-content:center;font-size:13px;color:var(--mute);border-radius:12px;position:relative}
+  .bnav button.on{color:var(--red-d)}
+  .bnav .badge{position:absolute;top:4px;left:calc(50% + 6px)}
+  .mv{display:flex}
+  .split{display:block;padding:0 12px 12px;position:relative}
+  .split>div{position:absolute;inset:0 12px 12px}
+  .split[data-mv=map] .listbox,.split[data-mv=list] .mapbox{display:none}
+  .chips{padding:10px 12px 6px}.tools{padding:0 12px 8px}
+  .fbtn span{display:none}
+  .dgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;min-height:0;height:auto;grid-template-rows:auto}
+  .card{padding:14px 14px;border-radius:18px}
+  .card h3{font-size:15px;margin-bottom:6px}
+  .c-count,.c-top{grid-column:1/-1}
+  .big{font-size:clamp(40px,12vw,56px)}
+  .pace .msg{font-size:19px}
+  .again .nm{font-size:22px}
+  .top3 b{font-size:17px}.medal{width:32px;height:32px;font-size:16px}
+  .agrid{grid-template-columns:minmax(0,1fr)}
+  .ov{align-items:end;padding:0}
+  .md,.md.sm{width:100%;border-radius:22px 22px 0 0;max-height:92dvh}
+  .toast{bottom:84px}
+}
+@media (max-width:860px){.mebtn{padding:0 8px;border:0}.mebtn .nk,.mebtn>svg{display:none}.mebtn .fam{font-size:13.5px;padding:6px 11px}.rate{gap:2px}.rate button{width:30px;height:40px}.rate .st{width:27px;height:27px}}
+@media (max-width:380px){.brand b{font-size:16px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="tkg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F56A4A"/><stop offset="1" stop-color="#DE3B22"/></linearGradient>
+    <symbol id="tk" viewBox="0 0 64 42"><rect x="2" y="5" width="60" height="33" rx="16.5" fill="url(#tkg)"/><rect x="9" y="9" width="26" height="6" rx="3" fill="#fff" opacity=".4"/><circle cx="24" cy="22" r="2.7" fill="#3A1D14"/><circle cx="40" cy="22" r="2.7" fill="#3A1D14"/><path d="M28.5 27q3.5 3.4 7 0" stroke="#3A1D14" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="16.5" cy="27" rx="4.2" ry="2.5" fill="#FFB3A3" opacity=".9"/><ellipse cx="47.5" cy="27" rx="4.2" ry="2.5" fill="#FFB3A3" opacity=".9"/></symbol>
+    <symbol id="st" viewBox="0 0 24 24"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4-4.7-4.6 6.5-.9z"/></symbol>
+    <symbol id="bowl" viewBox="0 0 240 165">
+      <ellipse cx="120" cy="152" rx="92" ry="9" fill="#F0DED2"/>
+      <path d="M22 78h196c0 44-44 72-98 72S22 122 22 78z" fill="#fff" stroke="#F0D9CB" stroke-width="3"/>
+      <path d="M40 112c22 10 138 10 160 0" stroke="#FFC234" stroke-width="5" fill="none" stroke-linecap="round" opacity=".7"/>
+      <ellipse cx="120" cy="78" rx="98" ry="17" fill="#E3401F"/>
+      <ellipse cx="120" cy="76" rx="86" ry="11" fill="#F05A3A"/>
+      <line x1="178" y1="10" x2="160" y2="86" stroke="#C99B6E" stroke-width="4" stroke-linecap="round"/>
+      <path d="M150 28q8-6 16 0t16 0l-4 14q-8-6-16 0t-16 0zM146 44q8-6 16 0t16 0l-4 14q-8-6-16 0t-16 0z" fill="#FFC234" stroke="#E8A812" stroke-width="2"/>
+      <use href="#tk" x="44" y="40" width="64" height="42" transform="rotate(-12 76 61)"/>
+      <use href="#tk" x="96" y="48" width="56" height="37" transform="rotate(8 124 66)"/>
+      <path d="M70 26q-6-10 0-18M96 22q-6-10 0-18M122 28q-6-10 0-18" stroke="#EBCFC0" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+{
+/* =====================================================================
+   설정 — Supabase 프로젝트 URL과 anon key를 넣으면 실제 서비스로 동작합니다.
+   비워두면 '미리보기(데모)' 모드: 이 브라우저에만 저장됩니다.
+   ===================================================================== */
+const CONFIG = {
+  SUPABASE_URL: 'https://kumlimukwfbfocszljen.supabase.co',
+  SUPABASE_ANON_KEY: 'sb_publishable_zNEtLxTx-cGisoqh4kaBAQ_hhLRAXr6',
+  EMAIL_DOMAIN: 'tteok100.app',   // 내부용 가짜 이메일 도메인 (바꾸지 마세요)
+  PW_SUFFIX: '#tb100',            // 짧은 비밀번호 허용용 (바꾸지 마세요)
+  START: '2026-10-01',            // 성지순례 시작일
+  PER_MONTH: 2                    // 한 달 목표
+};
+const SEED = [{"rank":1,"name":"마복림할머니떡볶이","region":"서울 중구","location":"신당동 떡볶이타운","style":"즉석","feature":"신당동 즉석떡볶이의 원조. 고추장+춘장 양념, 라면·쫄면 사리","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":2,"name":"남동공단떡볶이","region":"인천 남동구","location":"남동공단","style":"밀떡·국물","feature":"인천 3대. 단맛 먼저 매운맛 나중, 납작어묵·쫄볶이","delivery":"가능(확인)","order_route":"전화주문(비조리 밀키트) / 쿠팡 본사직영 3인분 950g","shipping":"생떡볶이 2개 이상 + 택배비 5,500원 (2023년 기사 기준)","source":"핫플헌터·쿠팡·얼루어"},{"rank":3,"name":"다리집","region":"부산 수영구","location":"남천바다로10번길 70","style":"통가래떡","feature":"45년 노포. 썰지 않은 긴 가래떡, 대왕오징어튀김","delivery":"가능(확인)","order_route":"마켓컬리 '떡볶이&어묵탕 세트'","shipping":"컬리 배송비 3,000원 (4만원 이상 무료)","source":"마켓컬리"},{"rank":4,"name":"윤옥연할매떡볶이 본점","region":"대구 수성구","location":"들안로77길 11 (신천시장)","style":"국물·매운맛","feature":"1974년 개업(구 신천할매). 단맛 없는 후추·고춧가루 매운맛, 튀김오뎅·만두","delivery":"가능(확인)","order_route":"공식 홈페이지 택배주문","shipping":"확인 필요","source":"폴리 '택배주문' 표기·대구관광정보"},{"rank":5,"name":"시장떡볶기(시떡)","region":"서울 성북구","location":"돌곶이로22가길 27 (석관시장)","style":"꾸덕·양념","feature":"서울 3대 시장떡볶이. 맵단 강렬, 야끼만두 짝꿍","delivery":"가능(한정·조건)","order_route":"공식 웹사이트 한정수량","shipping":"확인 필요","source":"카약"},{"rank":6,"name":"이가네떡볶이","region":"부산 중구","location":"부평 깡통시장 (대구 서문시장점도 있음)","style":"통가래떡","feature":"물 없이 무즙으로 끓임. 3대천왕 출연","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":7,"name":"중앙떡볶이","region":"대구 중구","location":"동성로2길 81","style":"국물","feature":"카레가루 양념, 납작만두. 대구 3대","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":8,"name":"원조할머니 기름떡볶이","region":"서울 종로구","location":"자하문로15길 13 (통인시장)","style":"기름떡볶이","feature":"1956년 시작, 서울미래유산. 간장·고추장 기름떡볶이","delivery":"매장 위주(추정)","order_route":null,"shipping":null,"source":null},{"rank":9,"name":"원조정할머니 기름떡볶이","region":"서울 종로구","location":"통인시장","style":"기름떡볶이","feature":"통인시장 기름떡볶이 양대산맥","delivery":"매장 위주(추정)","order_route":null,"shipping":null,"source":null},{"rank":10,"name":"미미네","region":"서울 마포구","location":"홍대","style":"국물","feature":"국물떡볶이 + 새우튀김","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":11,"name":"금미옥","region":"서울 성동구","location":"성수동","style":"쌀떡","feature":"온라인 누적 700만 개 판매. 밀키트 강자","delivery":"가능(확인)","order_route":"자사몰·온라인몰","shipping":"확인 필요","source":"위키트리(2026)"},{"rank":12,"name":"떡산","region":"서울","location":"(지점 확인)","style":null,"feature":"흑백요리사 출연으로 유명","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":13,"name":"랜떡","region":"경북 영주","location":"문화시장거리 (서울 양재 직영점 있음)","style":"쌀떡","feature":"양배추 듬뿍, 물오뎅 곁들임. 생활의 달인","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":14,"name":"명랑스낵","region":"제주","location":"제주시","style":null,"feature":"블루리본. 한치튀김·흑돼지튀김 곁들임","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":15,"name":"신천궁전떡볶이","region":"대구 수성구","location":"국채보상로162길 72","style":"매운맛","feature":"후추 베이스 강렬한 매운맛","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":16,"name":"달고떡볶이","region":"대구 달서구","location":"야외음악당로39길 54","style":"단짠","feature":"대구 3대 '달떡'. 달짝지근해서 맵찔이도 OK","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":17,"name":"악어떡볶이","region":"서울 성동구","location":"왕십리","style":null,"feature":"유퀴즈 소개, 유재석 방문","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":18,"name":"스마일이촌떡볶이","region":"서울 용산구","location":"이촌동","style":null,"feature":"1박2일 소개","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":19,"name":"조폭떡볶이","region":"서울 서대문구","location":"신촌","style":null,"feature":"큼직한 떡, 진한 양념","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":20,"name":"신토불이떡볶이","region":"서울 광진구","location":null,"style":"밀떡","feature":"3대천왕 출연. 강렬한 매운맛, 핫도그 범벅","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":21,"name":"또보겠지떡볶이집","region":"서울 마포구","location":"홍대 본점","style":"즉석","feature":"매운 즉석떡볶이 + 갈릭버터감자","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":22,"name":"애플하우스","region":"서울 서초구","location":"반포 고속터미널 상가","style":null,"feature":"무침만두와 떡볶이","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":23,"name":"먹쉬돈나","region":"서울 종로구","location":"안국동","style":"즉석","feature":"삼청동 즉석떡볶이 명소","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":24,"name":"상국이네","region":"부산 해운대구","location":"해운대시장","style":null,"feature":"김밥·떡볶이·튀김 명소","delivery":"가능(확인)","order_route":"쿠팡 냉동 627g","shipping":"쿠팡 판매조건 따름","source":"쿠팡"},{"rank":25,"name":"도날드","region":"부산","location":null,"style":"짜장떡볶이","feature":"부산관광공사 선정 부산 3대. 짜장떡볶이 인기","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":26,"name":"김민경의 섹시한 떡볶이","region":"대구 중구","location":"서문시장","style":null,"feature":"극한직업·생활의 달인 출연","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":27,"name":"떡보라","region":"충북 청주","location":null,"style":"가래떡","feature":"청주 대표 가래떡볶이, 쯔양 방문","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":28,"name":"우수분식","region":"경북 경주","location":null,"style":"통가래떡","feature":"통가래떡 떡볶이","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":29,"name":"이츠떡볶이","region":"경북 포항","location":null,"style":"즉석·가래떡","feature":"매일 뽑는 가래떡, 수제 마늘돈가스","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":30,"name":"모녀떡볶이","region":"인천 부평구","location":"부평역 인근","style":null,"feature":"인천 3대. 파 향, 야끼만두","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":31,"name":"얼레꼴레만두","region":"인천","location":null,"style":"달달","feature":"인천 3대. 달달한 떡볶이 + 국물만두","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":32,"name":"대왕판떡볶이","region":"인천","location":null,"style":null,"feature":"인천 3대로 꼽힘","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":33,"name":"신촌깻잎떡볶이","region":"부산","location":null,"style":"깻잎","feature":"특허받은 양념","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":34,"name":"황떡 본점","region":"대구 중구","location":"국채보상로 712","style":"카레향","feature":"맵기 3단계, 가성비","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":35,"name":"한떡","region":"대구 수성구","location":"지범로22길 20","style":null,"feature":"떡볶이 트럭에서 시작. 납작만두 튀김 추천","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":36,"name":"신떡","region":"대구 동구","location":"동호로 58","style":"극강 매운맛","feature":"맵덕후 성지, 고추김밥과 세트","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":37,"name":"잉꼬네떡볶이","region":"서울 중랑구","location":"망우동","style":"밀떡","feature":"40년 전통 옛날 떡볶이","delivery":"가능(확인)","order_route":"쿠팡 2인분 세트","shipping":"쿠팡 판매조건 따름","source":"쿠팡"},{"rank":38,"name":"미성분식 짱돌떡볶이","region":"대구","location":null,"style":"즉석·우리밀","feature":"대구 명물 우리밀 짱돌떡볶이","delivery":"가능(확인)","order_route":"쿠팡 즉석 밀키트 735g","shipping":"쿠팡 판매조건 따름","source":"쿠팡"},{"rank":39,"name":"1997떡볶이","region":"경기 안양","location":null,"style":"꾸덕","feature":"꾸덕한 옛날 떡볶이, 어묵국물소스","delivery":"가능(확인)","order_route":"쿠팡 530g","shipping":"쿠팡 판매조건 따름","source":"쿠팡·경북매일"},{"rank":40,"name":"신흥떡볶이","region":"서울 서대문구","location":"남가좌동","style":null,"feature":"콩나물 곁들임, 서울 3대로 꼽힘","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":41,"name":"도레미분식","region":"서울 도봉구","location":"쌍문동","style":"즉석","feature":"춘장 넣은 즉석떡볶이","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":42,"name":"맑은샘","region":"서울 중랑구","location":"망우동","style":"쫄볶이","feature":"숙성 다진양파 양념","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":43,"name":"명화당 명동1호점","region":"서울 중구","location":"명동","style":"쫄볶이","feature":"비빔쫄면 맛집, 쫄볶이","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":44,"name":"철길떡볶이","region":"서울 서대문구","location":"충정로","style":"옛날","feature":"철길 옆 옛날 떡볶이","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":45,"name":"은마상가 떡볶이","region":"서울 강남구","location":"대치동 은마상가","style":"밀떡","feature":"학원가 추억의 떡볶이","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":46,"name":"영천시장 떡볶이","region":"서울 서대문구","location":"영천시장","style":"시장","feature":"시장 떡볶이 명소","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":47,"name":"아저씨떡볶이","region":"대구 수성구","location":"지범로22길 20 현대맨션상가","style":null,"feature":"치자물 튀김, 포장해도 맛 유지","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":48,"name":"토스트앤후르츠","region":"대구 수성구","location":"신매로19길 56","style":"치즈","feature":"치즈떡볶이 + 꿀토스트","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":49,"name":"소문난공주떡볶이","region":"대구 달서구","location":"달구벌대로 1726-12","style":"통가래떡","feature":"대구식 가래떡 떡볶이","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":50,"name":"반할만떡","region":"대구 동구","location":"반야월","style":"만두떡볶이","feature":"54년 전통 할매 만두떡볶이","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":51,"name":"범앗간","region":"대구","location":null,"style":"통가래떡","feature":"통가래떡 + 육전","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":52,"name":"방촌시장 떡볶이","region":"대구 동구","location":"방촌시장","style":"시장","feature":"2026 떡페에서 밀키트로 판매","delivery":"가능(한정·조건)","order_route":"밀키트(판매처 확인)","shipping":"확인 필요","source":"경북매일(2026)"},{"rank":53,"name":"신천황제떡볶이","region":"대구","location":null,"style":null,"feature":"떡페 참가 대구 업체","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":54,"name":"신참떡볶이","region":"대구","location":null,"style":null,"feature":"떡페 참가 대구 업체","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":55,"name":"칠곡3지구 정떡","region":"대구 북구","location":"칠곡3지구","style":null,"feature":"떡페 단골 참가","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":56,"name":"한떡봉","region":"대구","location":null,"style":null,"feature":"떡페 단골 참가","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":57,"name":"심바떡볶이","region":"대구","location":null,"style":null,"feature":"떡페 단골 참가","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":58,"name":"태우네분식","region":"대구","location":null,"style":null,"feature":"떡페 단골 참가","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":59,"name":"뽀끼뽀끼분식이야기","region":"대구","location":null,"style":null,"feature":"떡페 단골 참가","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":60,"name":"해피치즈스마일","region":"대구","location":null,"style":"치즈","feature":"떡페 단골 참가","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":61,"name":"의림동떡볶이","region":"충북 제천","location":"의림동","style":null,"feature":"제천 지역 명물","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":62,"name":"꼬마떡볶이","region":"충북 충주","location":null,"style":null,"feature":"충주 지역 명물","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":63,"name":"소나무상사","region":"충북 충주","location":null,"style":null,"feature":"떡페 참가 업체","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":64,"name":"신성당","region":"충북 청주","location":null,"style":"뚝배기","feature":"뚝배기 떡볶이, 남은 양념에 밥 비빔","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":65,"name":"떡반집","region":"대전 서구","location":"둔산로 8","style":null,"feature":"히밥 대전 원픽","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":66,"name":"바로그집","region":"대전 중구","location":"중앙로 지하상가","style":null,"feature":"대전 분식 명소","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":67,"name":"안젤라분식","region":"전북 군산","location":null,"style":"달달","feature":"비빔잡채로 유명, 달달한 떡볶이","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":68,"name":"속초러브마린","region":"강원 속초","location":null,"style":"홍게","feature":"홍게떡볶이","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":69,"name":"그동네떡볶이","region":"서울","location":null,"style":"치즈","feature":"자연산 치즈 듬뿍","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":70,"name":"뻘건콩나물떡볶이","region":"서울 노원구","location":"상계시장","style":"콩나물","feature":"콩나물 넣은 떡볶이","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":71,"name":"쪼매매운떡볶이","region":"서울 노원구","location":null,"style":"옛날","feature":"은은한 매운맛, 옛날 비주얼","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":72,"name":"목동분식","region":"서울 강서구","location":"우장산","style":null,"feature":"입소문 로컬 떡볶이","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":73,"name":"혜선이떡볶이","region":"경기 성남","location":"분당","style":"즉석","feature":"즉석떡볶이 + 날치알볶음밥","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":74,"name":"꿍스떡볶이","region":"경기 고양","location":null,"style":null,"feature":"떡페 참가 업체","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":75,"name":"떡볶이행성","region":"경기 양주","location":null,"style":null,"feature":"떡페 참가 업체","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":76,"name":"사과떡볶이","region":"경기 파주","location":null,"style":null,"feature":"떡페 참가 업체","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":77,"name":"범일동 매떡","region":"부산 동구","location":"범일동","style":"매운맛","feature":"원조 매운떡볶이. 예전부터 택배 사례 있음","delivery":"확인 필요","order_route":null,"shipping":"예전(2011) 택배 소개 기사 있음","source":null},{"rank":78,"name":"화명동쌀떡","region":"부산 북구","location":"화명동","style":"쌀떡","feature":"부산식 쌀떡볶이","delivery":"가능(확인)","order_route":"쿠팡 2인분 밀키트","shipping":"쿠팡 판매조건 따름","source":"쿠팡"},{"rank":79,"name":"영심이떡볶이","region":"경기 성남","location":"분당 성남대로 165","style":null,"feature":"분당 추억의 떡볶이 (호불호)","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":80,"name":"새로나분식","region":"제주","location":"제주시","style":"모닥치기","feature":"떡볶이·김밥·튀김 한 접시 '모닥치기' (정보 확인 필요)","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":81,"name":"떡만 잘먹더라","region":"대구 (떡페 출품)","location":"2026 떡볶이 페스티벌","style":"모양떡","feature":"K-떡볶이 콘테스트 최우수상. 모양떡 + 두부 모양 피쉬볼","delivery":"확인 필요","order_route":null,"shipping":null,"source":"경북매일(2026)"},{"rank":82,"name":"마리오떡볶이","region":"(지역 확인)","location":null,"style":"즉석·미역","feature":"즉석 미역떡볶이, 파채튀김. 레트로 분위기","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":83,"name":"아이러브신당동","region":"서울 중구","location":"신당동 떡볶이타운","style":"즉석","feature":"신당동 골목 대형 즉석떡볶이집","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":84,"name":"너머","region":"대구","location":null,"style":"카페형","feature":"대구 브랜드 (2014년 기사 기준, 영업 확인)","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":85,"name":"미숙이네 떡뽀끼","region":"대구","location":null,"style":null,"feature":"대구 브랜드 (2014년 기사 기준, 영업 확인)","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":86,"name":"빨봉분식","region":"대구","location":null,"style":null,"feature":"대구 브랜드 (2014년 기사 기준, 영업 확인)","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":87,"name":"두남자떡볶이","region":"대구","location":null,"style":null,"feature":"대구 브랜드 (2014년 기사 기준, 영업 확인)","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":88,"name":"이웃집소녀떡볶이","region":"대구","location":null,"style":null,"feature":"대구 브랜드 (2014년 기사 기준, 영업 확인)","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":89,"name":"엽기떡볶이 (동대문 본점)","region":"서울 동대문구","location":"동대문","style":"프랜차이즈","feature":"극강 매운맛 프랜차이즈의 대표","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":90,"name":"신전떡볶이","region":"대구 출발","location":null,"style":"프랜차이즈","feature":"후추·카레향 매운맛","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":91,"name":"배떡","region":null,"location":null,"style":"프랜차이즈","feature":"로제떡볶이 붐 주역","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":92,"name":"죠스떡볶이","region":null,"location":null,"style":"프랜차이즈","feature":"국물 밀떡볶이","delivery":"가능(확인)","order_route":"쿠팡 냉동 425g","shipping":"쿠팡 판매조건 따름","source":"쿠팡"},{"rank":93,"name":"국대떡볶이","region":null,"location":null,"style":"프랜차이즈","feature":"국내산 고춧가루 강조","delivery":"가능(확인)","order_route":"쿠팡 밀키트 345g","shipping":"쿠팡 판매조건 따름","source":"쿠팡"},{"rank":94,"name":"응급실떡볶이","region":null,"location":null,"style":"프랜차이즈","feature":"매운맛 단계 선택","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":95,"name":"두끼","region":null,"location":null,"style":"프랜차이즈","feature":"무한리필 즉석떡볶이","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":96,"name":"청년다방","region":null,"location":null,"style":"프랜차이즈","feature":"차돌·통오징어 떡볶이","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":97,"name":"우리할매떡볶이","region":null,"location":null,"style":"프랜차이즈","feature":"옛날 할매 스타일","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":98,"name":"걸작떡볶이","region":null,"location":null,"style":"프랜차이즈","feature":"떡볶이+치킨 세트","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":99,"name":"아딸","region":null,"location":null,"style":"프랜차이즈","feature":"학교 앞 추억의 떡볶이","delivery":"확인 필요","order_route":null,"shipping":null,"source":null},{"rank":100,"name":"스쿨푸드","region":null,"location":null,"style":"프랜차이즈","feature":"마리(김밥)+떡볶이","delivery":"확인 필요","order_route":null,"shipping":null,"source":null}];
+const DEMO = !CONFIG.SUPABASE_URL;
+
+/* ---------- 선택지 ---------- */
+const OPT = {
+  sweet:   {label:'단맛',   o:[['low','덜 달아요','덜단'],['mid','보통','단맛보통'],['high','달아요','달달']]},
+  spicy:   {label:'매움',   o:[['mild','순한맛','순한맛'],['mid','보통','보통매움'],['hot','매워요','매콤'],['fire','아주 매워요','아주매움']]},
+  soup:    {label:'국물양', o:[['low','자작','국물자작'],['mid','보통','국물보통'],['high','국물 많음','국물많음']]},
+  tteok:   {label:'떡',     o:[['wheat','밀떡','밀떡'],['rice','쌀떡','쌀떡'],['garae','가래떡','가래떡'],['etc','기타','기타떡']]},
+  fishcake:{label:'어묵',   o:[['yes','있음','어묵O'],['no','없음','어묵X']]}
+};
+const ATTRS = Object.keys(OPT);
+const tagOf = (k,v) => (OPT[k].o.find(x=>x[0]===v)||[])[2];
+const labOf = (k,v) => (OPT[k].o.find(x=>x[0]===v)||[])[1];
+
+/* ---------- 지역 좌표 (시·군·구 중심, 대략) ---------- */
+const SIDO_ORDER = ['서울','인천','경기','강원','충북','충남','세종','대전','전북','전남','광주','경북','대구','경남','울산','부산','제주','전국'];
+const SIDO_ALIAS = {서울특별시:'서울',서울시:'서울',부산광역시:'부산',부산시:'부산',대구광역시:'대구',대구시:'대구',인천광역시:'인천',인천시:'인천',광주광역시:'광주',대전광역시:'대전',울산광역시:'울산',세종특별자치시:'세종',세종시:'세종',경기도:'경기',강원도:'강원',강원특별자치도:'강원',충청북도:'충북',충청남도:'충남',전라북도:'전북',전북특별자치도:'전북',전라남도:'전남',경상북도:'경북',경상남도:'경남',제주도:'제주',제주특별자치도:'제주'};
+const SIDO_C = {서울:[37.5665,126.978],인천:[37.4563,126.7052],경기:[37.41,127.3],강원:[37.82,128.16],충북:[36.8,127.7],충남:[36.52,126.8],세종:[36.48,127.289],대전:[36.3504,127.3845],전북:[35.72,127.15],전남:[34.82,126.46],광주:[35.1595,126.8526],경북:[36.49,128.89],대구:[35.8714,128.6014],경남:[35.46,128.21],울산:[35.5384,129.3114],부산:[35.1796,129.0756],제주:[33.4996,126.5312]};
+const SGG_C = {
+ '서울 중구':[37.5636,126.9976],'서울 서대문구':[37.5791,126.9368],'서울 종로구':[37.5735,126.979],'서울 마포구':[37.5663,126.9019],'서울 성동구':[37.5633,127.0371],'서울 중랑구':[37.6063,127.0925],'서울 노원구':[37.6542,127.0568],'서울 성북구':[37.5894,127.0167],'서울 용산구':[37.5324,126.99],'서울 광진구':[37.5385,127.0823],'서울 서초구':[37.4837,127.0324],'서울 도봉구':[37.6688,127.0471],'서울 강남구':[37.5172,127.0473],'서울 강서구':[37.5509,126.8495],'서울 동대문구':[37.5744,127.0397],'서울 송파구':[37.5145,127.1059],'서울 영등포구':[37.5264,126.8962],'서울 관악구':[37.4784,126.9516],'서울 은평구':[37.6027,126.9291],'서울 강동구':[37.5301,127.1238],'서울 동작구':[37.5124,126.9393],'서울 양천구':[37.517,126.8665],'서울 구로구':[37.4954,126.8874],'서울 금천구':[37.4569,126.8955],'서울 강북구':[37.6396,127.0257],
+ '인천 남동구':[37.4473,126.7314],'인천 부평구':[37.507,126.7219],'인천 중구':[37.4738,126.6216],'인천 미추홀구':[37.4635,126.6505],'인천 연수구':[37.4101,126.6783],'인천 계양구':[37.5372,126.7376],'인천 서구':[37.5456,126.676],
+ '경기 성남':[37.42,127.1265],'경기 안양':[37.3943,126.9568],'경기 고양':[37.6584,126.832],'경기 양주':[37.7853,127.0458],'경기 파주':[37.76,126.78],'경기 수원':[37.2636,127.0286],'경기 용인':[37.2411,127.1776],'경기 부천':[37.5034,126.766],'경기 안산':[37.3219,126.8309],'경기 의정부':[37.7381,127.0337],'경기 남양주':[37.636,127.2165],'경기 평택':[36.9921,127.1129],'경기 화성':[37.1995,126.8312],'경기 김포':[37.6153,126.7156],'경기 광명':[37.4786,126.8646],
+ '강원 속초':[38.207,128.5918],'강원 춘천':[37.8813,127.7298],'강원 강릉':[37.7519,128.8761],'강원 원주':[37.3422,127.9202],
+ '충북 청주':[36.6424,127.489],'충북 충주':[36.991,127.9259],'충북 제천':[37.1326,128.191],
+ '충남 천안':[36.8151,127.1139],'충남 공주':[36.4465,127.119],'충남 아산':[36.7898,127.0018],
+ '대전 서구':[36.3555,127.3838],'대전 중구':[36.3255,127.4214],'대전 동구':[36.3119,127.4549],'대전 유성구':[36.3622,127.3562],'대전 대덕구':[36.3466,127.4156],
+ '전북 군산':[35.9676,126.7369],'전북 전주':[35.8242,127.148],'전북 익산':[35.9483,126.9576],
+ '전남 목포':[34.8118,126.3922],'전남 여수':[34.7604,127.6622],'전남 순천':[34.9506,127.4872],
+ '경북 영주':[36.8057,128.624],'경북 경주':[35.8562,129.2247],'경북 포항':[36.019,129.3435],'경북 안동':[36.5684,128.7294],'경북 구미':[36.1195,128.3446],
+ '대구 수성구':[35.8581,128.6306],'대구 중구':[35.8693,128.6062],'대구 동구':[35.8866,128.6357],'대구 달서구':[35.8298,128.5326],'대구 북구':[35.8858,128.5828],'대구 남구':[35.846,128.5974],'대구 서구':[35.8718,128.5592],
+ '경남 창원':[35.2279,128.6811],'경남 김해':[35.2285,128.8894],'경남 진주':[35.18,128.1076],'경남 통영':[34.8544,128.4332],
+ '울산 남구':[35.5439,129.33],'울산 중구':[35.5694,129.3328],
+ '부산 수영구':[35.1455,129.1131],'부산 중구':[35.1063,129.0324],'부산 해운대구':[35.1631,129.1636],'부산 동구':[35.1293,129.0454],'부산 북구':[35.1972,128.9903],'부산 부산진구':[35.1629,129.0532],'부산 남구':[35.1366,129.0843],'부산 동래구':[35.2048,129.0837],'부산 사하구':[35.1046,128.9748],
+ '제주 제주':[33.4996,126.5312],'제주 서귀포':[33.2541,126.56]
+};
+const KOREA = [[33.1,125.2],[38.6,129.6]];
+
+function regionOf(raw){
+  const t = String(raw||'').replace(/\(.*?\)/g,' ').trim();
+  const p = t.split(/\s+/).filter(Boolean);
+  const sido = p[0] ? (SIDO_ALIAS[p[0]]||p[0]) : '';
+  if(!SIDO_C[sido]) return {sido:'전국', sgg:''};
+  let sgg = p[1]||'';
+  if(/[시군]$/.test(sgg) && sgg.length>2) sgg = sgg.slice(0,-1);
+  return {sido, sgg};
+}
+function placeStores(list){
+  const cnt = {};
+  for(const s of list){
+    const r = regionOf(s.region); s._sido = r.sido; s._sgg = r.sgg; s._pos = null;
+    if(s.lat && s.lng){ s._pos = [+s.lat, +s.lng]; continue; }
+    const base = SGG_C[r.sido+' '+r.sgg] || SIDO_C[r.sido];
+    if(!base) continue;
+    const k = base.join(','); const i = cnt[k] = (cnt[k]||0)+1;
+    const ang = i*2.39996, rad = i===1 ? 0 : 0.0042*Math.sqrt(i-1);
+    s._pos = [base[0]+rad*Math.sin(ang), base[1]+rad*Math.cos(ang)*1.25];
+  }
+}
+
+/* ---------- 유틸 ---------- */
+const $ = (s,el=document)=>el.querySelector(s);
+const $$ = (s,el=document)=>[...el.querySelectorAll(s)];
+const esc = v => String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ic = {
+  map:'<svg class="i" viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg>',
+  list:'<svg class="i" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>',
+  dash:'<svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="9" rx="2"/><rect x="13.5" y="3" width="7.5" height="5" rx="2"/><rect x="13.5" y="11" width="7.5" height="10" rx="2"/><rect x="3" y="15" width="7.5" height="6" rx="2"/></svg>',
+  gear:'<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
+  x:'<svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+  search:'<svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+  filter:'<svg class="i" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></svg>',
+  down:'<svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px"><path d="m6 9 6 6 6-6"/></svg>',
+  pin:'<svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>'
+};
+const star = (cls='st') => `<svg class="${cls}"><use href="#st"/></svg>`;
+const tk = (w=60,h=40,cls='') => `<svg class="${cls}" width="${w}" height="${h}" viewBox="0 0 64 42"><use href="#tk"/></svg>`;
+const f1 = v => (Math.round(v*10)/10).toFixed(1);
+const today = () => { const d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); };
+function toast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2200); }
+function starsRow(v){ let h='<span class="stars">'; for(let i=1;i<=5;i++) h+=star('st'+(i<=v?' on':'')); return h+'</span>'; }
+const errMsg = e => (e && (e.message||e.error_description)) || '문제가 생겼어요. 잠시 후 다시 시도해 주세요';
+
+/* ---------- 모달 ---------- */
+function modal(html, {cls='', onClose}={}){
+  const ov = document.createElement('div'); ov.className='ov';
+  ov.innerHTML = `<div class="md ${cls}" role="dialog" aria-modal="true">${html}</div>`;
+  document.body.appendChild(ov);
+  const close = () => { if(!ov.isConnected) return; ov.remove(); onClose && onClose(); };
+  ov.addEventListener('click', e=>{ if(e.target===ov || e.target.closest('[data-close]')) close(); });
+  const k = e => { if(e.key==='Escape'){ close(); document.removeEventListener('keydown',k);} };
+  document.addEventListener('keydown',k);
+  return {el:$('.md',ov), close};
+}
+const head = (title, sub='') => `<div class="mh"><h2>${title}${sub?`<span class="rg">${sub}</span>`:''}</h2><button class="x" data-close aria-label="닫기">${ic.x}</button></div>`;
+function notice(title, body, btn='확인'){
+  return new Promise(res=>{
+    const m = modal(`<div class="mb ctr" style="padding-top:22px"><svg class="note-pic"><use href="#bowl"/></svg><h2>${title}</h2><p class="muted">${body}</p><button class="btn block" data-close>${btn}</button></div>`, {cls:'sm', onClose:res});
+  });
+}
+
+/* =====================================================================
+   데이터 계층 — 데모(LocalAPI) / 실서비스(SupaAPI) 같은 모양
+   ===================================================================== */
+function LocalAPI(){
+  const KEY='ttbk100_demo_v1'; let db, sid=null;
+  const save=()=>{ try{ localStorage.setItem(KEY, JSON.stringify(db)); localStorage.setItem(KEY+'_s', sid||''); }catch(e){} };
+  try{ db=JSON.parse(localStorage.getItem(KEY)); sid=localStorage.getItem(KEY+'_s')||null; }catch(e){}
+  if(!db || !db.stores){ db = seedDemo(); }
+  function seedDemo(){
+    const stores = SEED.map((s,i)=>({...s, id:i+1}));
+    const U=(id,username,nickname,o={})=>({id,username,pw:'demo',nickname,role:'user',admin_status:'approved',family_id:null,family_role:null,family_status:null,notice:null,created:Date.now(),...o});
+    const users=[
+      U('a','admin','관리자',{pw:'admin',role:'admin'}),
+      U('u1','demo','떡순이',{family_id:'f1',family_role:'leader',family_status:'approved'}),
+      U('u2','demo2','튀김요정',{family_id:'f1',family_role:'member',family_status:'approved'}),
+      U('u3','guest','국물파',{family_id:'f2',family_role:'leader',family_status:'approved'}),
+      U('u4','kid','쫄면러버',{family_id:'f1',family_role:'member',family_status:'pending'}),
+      U('u5','new1','라볶이킹',{admin_status:'pending',family_id:'f2',family_role:'member',family_status:'pending'})
+    ];
+    const families=[{id:'f1',name:'떡순이네',leader_id:'u1',approved:true},{id:'f2',name:'매콤가족',leader_id:'u3',approved:true}];
+    const R=(user_id,store_id,eaten_on,method,taste,price,sweet,spicy,soup,tteok,fishcake,comment,revisit)=>({user_id,store_id,eaten_on,method,taste,price,sweet,spicy,soup,tteok,fishcake,comment,revisit});
+    const reviews=[
+      R('u1',2,'2026-10-12','delivery',5,4,'high','mid','mid','wheat','yes','단맛 뒤에 오는 매운맛 최고',true),
+      R('u2',2,'2026-10-12','delivery',4,4,'high','mid','mid','wheat','yes','납작어묵 쫄깃',true),
+      R('u3',2,'2026-09-30','visit',5,5,'high','hot','mid','wheat','yes','인천 가면 무조건',true),
+      R('u1',3,'2026-10-26','delivery',4,3,'mid','mid','low','garae','no','긴 가래떡 신기해요',true),
+      R('u2',3,'2026-10-26','delivery',3,3,'mid','mild','low','garae','no','오징어튀김이 더 맛있음',false),
+      R('u3',4,'2026-11-02','delivery',5,4,'low','fire','high','wheat','yes','후추 매운맛 중독',true),
+      R('u3',1,'2026-10-05','visit',4,4,'high','mid','high','rice','yes','춘장 맛이 은근해요',false)
+    ];
+    return {stores, users, families, reviews, seq:100};
+  }
+  const me = ()=>db.users.find(u=>u.id===sid);
+  const prof = u => u && ({...u, pw:undefined, family_name:(db.families.find(f=>f.id===u.family_id)||{}).name});
+  const named = r => ({...r, nickname:(db.users.find(u=>u.id===r.user_id)||{}).nickname});
+  const ok = v => Promise.resolve(JSON.parse(JSON.stringify(v===undefined?null:v)));
+  return {
+    current: ()=> ok(prof(me())),
+    async login(u,p){ const x=db.users.find(z=>z.username===u.toLowerCase() && z.pw===p); if(!x) throw new Error('아이디 또는 비밀번호가 맞지 않아요'); sid=x.id; save(); return prof(x); },
+    async logout(){ sid=null; save(); },
+    async check(u,n,f){ return {username:!db.users.some(x=>x.username===u.toLowerCase())&&u.toLowerCase()!=='admin', nickname:!db.users.some(x=>x.nickname===n), family:!f||!db.families.some(x=>x.name===f)}; },
+    families: ()=> ok(db.families.filter(f=>f.approved).map(f=>({id:f.id,name:f.name}))),
+    async signup(d){
+      const id='u'+(++db.seq); let fid=d.familyId, role='member', fst='pending';
+      if(d.mode==='new'){ fid='f'+(++db.seq); db.families.push({id:fid,name:d.familyName,leader_id:id,approved:false}); role='leader'; fst='approved'; }
+      db.users.push({id,username:d.username.toLowerCase(),pw:d.pw,nickname:d.nickname,role:'user',admin_status:'pending',family_id:fid,family_role:role,family_status:fst,notice:null,created:Date.now()});
+      save();
+    },
+    stores: ()=> ok(db.stores),
+    stats(){ return ok(Object.values(computeStats(db.reviews))); },
+    reviewsByStore: id => ok(db.reviews.filter(r=>r.store_id===id).map(named)),
+    reviewsByUsers: ids => ok(db.reviews.filter(r=>ids.includes(r.user_id)).map(named)),
+    async saveReview(r){ db.reviews = db.reviews.filter(x=>!(x.user_id===sid && x.store_id===r.store_id)); db.reviews.push({...r,user_id:sid}); save(); },
+    async deleteReview(store_id){ db.reviews = db.reviews.filter(x=>!(x.user_id===sid && x.store_id===store_id)); save(); },
+    familyMembers(){ const m=me(); return ok(db.users.filter(u=>m.family_status==='approved'&&u.family_id===m.family_id&&u.family_status==='approved').map(u=>({id:u.id,nickname:u.nickname,family_role:u.family_role}))); },
+    familyRequests(){ const f=db.families.find(f=>f.leader_id===sid); return ok(f? db.users.filter(u=>u.family_id===f.id&&u.family_status==='pending'&&u.admin_status==='approved').map(u=>({id:u.id,nickname:u.nickname})):[]); },
+    async leaderDecide(id,yes){ const u=db.users.find(x=>x.id===id); u.family_status=yes?'approved':'rejected'; u.notice=yes?'family_approved':'family_rejected'; save(); },
+    adminUsers: ()=> ok(db.users.map(u=>({...prof(u)}))),
+    async adminDecide(id,yes){ const u=db.users.find(x=>x.id===id); u.admin_status=yes?'approved':'rejected'; db.families.filter(f=>f.leader_id===id).forEach(f=>f.approved=yes); save(); },
+    async clearNotice(){ me().notice=null; save(); },
+    async requestFamily(mode,name,fid){ const u=me(); if(mode==='new'){ if(db.families.some(f=>f.name===name)) throw new Error('이미 있는 가족명이에요'); const id='f'+(++db.seq); db.families.push({id,name,leader_id:u.id,approved:true}); Object.assign(u,{family_id:id,family_role:'leader',family_status:'approved'}); } else Object.assign(u,{family_id:fid,family_role:'member',family_status:'pending'}); u.notice=null; save(); },
+    async upsertStores(rows){ for(const r of rows){ const s=db.stores.find(x=>x.name===r.name); if(s) Object.assign(s,r); else db.stores.push({...r,id:++db.seq}); } save(); },
+    async changePassword(p){ me().pw=p; save(); },
+    reset(){ try{ localStorage.removeItem(KEY); localStorage.removeItem(KEY+'_s'); }catch(e){} location.reload(); }
+  };
+}
+
+function SupaAPI(){
+  const sb = supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+  const em = u => `${u.toLowerCase()}@${CONFIG.EMAIL_DOMAIN}`, pw = p => p + CONFIG.PW_SUFFIX;
+  const chk = r => { if(r.error) throw r.error; return r.data; };
+  let uid = null;
+  async function profile(){
+    const { data:{ session } } = await sb.auth.getSession();
+    if(!session) return null; uid = session.user.id;
+    const p = chk(await sb.from('profiles').select('*, families(name)').eq('id', uid).maybeSingle());
+    if(!p) return null;
+    p.family_name = p.families && p.families.name; delete p.families; return p;
+  }
+  return {
+    current: profile,
+    async login(u,p){
+      const r = await sb.auth.signInWithPassword({email:em(u), password:pw(p)});
+      if(r.error){
+        if(u.toLowerCase()==='admin' && p==='admin' && !chk(await sb.rpc('admin_exists'))){
+          chk(await sb.auth.signUp({email:em('admin'), password:pw('admin'), options:{data:{username:'admin'}}}));
+          const r2 = await sb.auth.signInWithPassword({email:em(u), password:pw(p)}); if(r2.error) throw r2.error;
+          return profile();
+        }
+        throw new Error('아이디 또는 비밀번호가 맞지 않아요');
+      }
+      return profile();
+    },
+    async logout(){ await sb.auth.signOut(); },
+    async check(u,n,f){ return chk(await sb.rpc('check_available',{p_username:u,p_nickname:n,p_family:f||null})); },
+    async families(){ return chk(await sb.rpc('list_families')); },
+    async signup(d){
+      const r = await sb.auth.signUp({email:em(d.username), password:pw(d.pw), options:{data:{username:d.username.toLowerCase(), nickname:d.nickname, mode:d.mode, family_name:d.familyName||null, family_id:d.familyId||null}}});
+      if(r.error) throw new Error(/registered|exists/i.test(r.error.message)?'이미 사용 중인 아이디예요':'가입 요청을 보내지 못했어요. 잠시 후 다시 시도해 주세요');
+      await sb.auth.signOut();
+    },
+    async stores(){ return chk(await sb.from('stores').select('*').order('rank',{ascending:true}).limit(5000)); },
+    async stats(){ return chk(await sb.from('store_stats').select('*').limit(5000)); },
+    async reviewsByStore(id){ return chk(await sb.from('reviews_named').select('*').eq('store_id',id).order('eaten_on',{ascending:false})); },
+    async reviewsByUsers(ids){ return chk(await sb.from('reviews_named').select('*').in('user_id',ids).limit(5000)); },
+    async saveReview(r){ chk(await sb.from('reviews').upsert({...r, user_id:uid, updated_at:new Date().toISOString()},{onConflict:'user_id,store_id'})); },
+    async deleteReview(store_id){ chk(await sb.from('reviews').delete().eq('user_id',uid).eq('store_id',store_id)); },
+    async familyMembers(){ return chk(await sb.rpc('family_members')); },
+    async familyRequests(){ return chk(await sb.rpc('family_requests')); },
+    async leaderDecide(id,yes){ chk(await sb.rpc('leader_decide',{p_id:id,p_ok:yes})); },
+    async adminUsers(){ const d = chk(await sb.from('profiles').select('*, families(name)').order('created_at',{ascending:false})); return d.map(p=>({...p, family_name:p.families&&p.families.name})); },
+    async adminDecide(id,yes){ chk(await sb.rpc('admin_decide',{p_id:id,p_ok:yes})); },
+    async clearNotice(){ chk(await sb.rpc('clear_notice')); },
+    async requestFamily(mode,name,fid){ const r = await sb.rpc('request_family',{p_mode:mode,p_name:name||null,p_family:fid||null}); if(r.error) throw new Error(/unique|duplicate/i.test(r.error.message)?'이미 있는 가족명이에요':'신청하지 못했어요'); },
+    async upsertStores(rows){ for(let i=0;i<rows.length;i+=200) chk(await sb.from('stores').upsert(rows.slice(i,i+200),{onConflict:'name'})); },
+    async changePassword(p){ chk(await sb.auth.updateUser({password:pw(p)})); }
+  };
+}
+
+function computeStats(reviews){
+  const g = {};
+  for(const r of reviews){ (g[r.store_id] = g[r.store_id]||[]).push(r); }
+  const out = {};
+  for(const [id,rs] of Object.entries(g)){
+    const o = {store_id:+id, n:rs.length, taste:rs.reduce((a,r)=>a+(+r.taste||0),0)/rs.length, price:rs.reduce((a,r)=>a+(+r.price||0),0)/rs.length,
+      revisit_yes:rs.filter(r=>r.revisit===true).length, revisit_n:rs.filter(r=>r.revisit!==null&&r.revisit!==undefined).length};
+    for(const k of ATTRS){ const c={}; let best=null; for(const r of rs){ if(!r[k]) continue; c[r[k]]=(c[r[k]]||0)+1; if(!best||c[r[k]]>c[best]) best=r[k]; } o[k]=best; }
+    out[id] = o;
+  }
+  return out;
+}
+
+/* =====================================================================
+   상태
+   ===================================================================== */
+let api;
+const S = { me:null, stores:[], stats:{}, famStats:{}, scope:[], fam:[], region:'전체', mv:'map', q:'', sort:'rank', onlyNew:false, avg:'all', tab:'explore', pending:0 };
+const byId = id => S.stores.find(s=>s.id===id);
+const stat = id => (S.avg==='family' ? S.famStats : S.stats)[id];
+const mine = id => S.scope.find(r=>r.user_id===S.me.id && r.store_id===id);
+const inFamily = () => S.me && S.me.family_status==='approved';
+
+/* =====================================================================
+   로그인 / 회원가입
+   ===================================================================== */
+const root = $('#root');
+function authShell(inner){
+  root.innerHTML = `<div class="auth"><div class="auth-card"><svg class="hero" viewBox="0 0 240 165"><use href="#bowl"/></svg><h1>대한민국 떡볶이<br>성지순례 <em>100</em></h1>${inner}</div></div>`;
+}
+function showLogin(){
+  authShell(`<p class="sub">전국 떡볶이 도장깨기, 우리 가족과 함께</p>
+    <form id="lf" autocomplete="on">
+      <label class="field"><span>아이디</span><input class="inp" name="u" autocomplete="username" autocapitalize="off" required></label>
+      <label class="field"><span>비밀번호</span><input class="inp" name="p" type="password" autocomplete="current-password" required></label>
+      <div class="err" id="le"></div>
+      <button class="btn block">로그인</button>
+    </form>
+    <button class="linkbtn" id="toSign">처음이세요? 회원가입</button>
+    ${DEMO?`<div class="demo-hint"><b>미리보기 모드</b> · 이 브라우저에만 저장돼요<br>가족대표 <b>demo / demo</b> · 관리자 <b>admin / admin</b></div>`:''}`);
+  $('#toSign').onclick = showSignup;
+  $('#lf').onsubmit = async e => {
+    e.preventDefault(); const f=e.target, b=$('button',f); b.disabled=true; $('#le').textContent='';
+    try{ S.me = await api.login(f.u.value.trim(), f.p.value); enter(); }
+    catch(err){ $('#le').textContent = errMsg(err); b.disabled=false; }
+  };
+}
+async function showSignup(){
+  authShell(`<p class="sub">닉네임으로만 활동해요. 아이디는 다른 사람에게 보이지 않아요.</p>
+    <form id="sf" novalidate>
+      <div class="two"><label class="field"><span>아이디 (영문·숫자)</span><input class="inp" name="u" autocapitalize="off" maxlength="16"></label>
+      <label class="field"><span>닉네임</span><input class="inp" name="n" maxlength="10"></label></div>
+      <div class="two"><label class="field"><span>비밀번호 (4자 이상)</span><input class="inp" name="p" type="password" autocomplete="new-password"></label>
+      <label class="field"><span>비밀번호 확인</span><input class="inp" name="p2" type="password" autocomplete="new-password"></label></div>
+      <div class="field"><span>가족</span><div class="seg" id="fm"><button type="button" class="on" data-m="join">기존 가족 참여</button><button type="button" data-m="new">가족대표로 가입</button></div></div>
+      <div id="fbox"></div>
+      <div class="err" id="se"></div>
+      <button class="btn block">가입 요청하기</button>
+    </form>
+    <button class="linkbtn" id="toLogin">이미 계정이 있어요 · 로그인</button>`);
+  $('#toLogin').onclick = showLogin;
+  let mode='join', fams=[];
+  try{ fams = await api.families(); }catch(e){}
+  const drawF = () => {
+    $$('#fm button').forEach(b=>b.classList.toggle('on', b.dataset.m===mode));
+    $('#fbox').innerHTML = mode==='new'
+      ? `<label class="field"><span>가족명</span><input class="inp" name="fn" maxlength="12" placeholder="예) 떡순이네"></label>`
+      : (fams.length ? `<label class="field"><span>참여할 가족</span><select class="inp" name="fid"><option value="">가족을 골라 주세요</option>${fams.map(f=>`<option value="${esc(f.id)}">${esc(f.name)}</option>`).join('')}</select></label>`
+                     : `<p class="small muted" style="margin:0 0 10px">아직 만들어진 가족이 없어요. ‘가족대표로 가입’을 선택해 주세요.</p>`);
+  };
+  $('#fm').onclick = e => { const b=e.target.closest('button'); if(b){ mode=b.dataset.m; drawF(); } };
+  drawF();
+  $('#sf').onsubmit = async e => {
+    e.preventDefault(); const f=e.target, E=$('#se'), b=f.querySelector('button.btn');
+    const d = {username:f.u.value.trim().toLowerCase(), nickname:f.n.value.trim(), pw:f.p.value, mode, familyName:f.fn?f.fn.value.trim():'', familyId:f.fid?f.fid.value:''};
+    const fail = m => { E.textContent=m; };
+    if(!/^[a-z0-9_]{3,16}$/.test(d.username)) return fail('아이디는 영문 소문자·숫자 3~16자로 적어 주세요');
+    if(d.nickname.length<2) return fail('닉네임은 2자 이상 적어 주세요');
+    if(d.pw.length<4) return fail('비밀번호는 4자 이상이에요');
+    if(d.pw!==f.p2.value) return fail('비밀번호 확인이 달라요');
+    if(mode==='new' && d.familyName.length<2) return fail('가족명을 2자 이상 적어 주세요');
+    if(mode==='join' && !d.familyId) return fail('참여할 가족을 골라 주세요');
+    b.disabled=true; E.textContent='';
+    try{
+      const c = await api.check(d.username, d.nickname, mode==='new'?d.familyName:null);
+      if(!c.username) throw new Error('이미 사용 중인 아이디예요');
+      if(!c.nickname) throw new Error('이미 사용 중인 닉네임이에요');
+      if(!c.family) throw new Error('이미 있는 가족명이에요');
+      await api.signup(d);
+      await notice('가입 요청을 보냈어요', mode==='new' ? '관리자가 승인하면 로그인할 수 있어요.' : '관리자 승인 후 로그인할 수 있고,<br>가족대표가 승인하면 가족에 합류해요.');
+      showLogin();
+    }catch(err){ fail(errMsg(err)); b.disabled=false; }
+  };
+}
+function showWaiting(rejected){
+  authShell(`<p class="sub" style="margin-top:10px">${rejected?'가입 요청이 승인되지 않았어요.<br>관리자에게 문의해 주세요.':'<b>'+esc(S.me.nickname)+'</b>님, 가입 승인을 기다리고 있어요.<br>관리자가 승인하면 바로 이용할 수 있어요.'}</p>
+    ${rejected?'':'<button class="btn block" id="rf">다시 확인하기</button>'}<button class="linkbtn" id="lo">로그아웃</button>`);
+  $('#lo').onclick = async()=>{ await api.logout(); S.me=null; showLogin(); };
+  if(!rejected) $('#rf').onclick = async()=>{ S.me = await api.current(); enter(); };
+}
+
+/* =====================================================================
+   본 화면
+   ===================================================================== */
+async function enter(){
+  if(!S.me) return showLogin();
+  if(S.me.admin_status==='pending') return showWaiting(false);
+  if(S.me.admin_status==='rejected') return showWaiting(true);
+  shell();
+  try{ await loadData(); }catch(e){ toast(errMsg(e)); }
+  renderAll();
+  runNotices();
+}
+async function loadData(){
+  const [stores, stats] = await Promise.all([api.stores(), api.stats()]);
+  S.stores = (stores||[]).sort((a,b)=>(a.rank??9999)-(b.rank??9999));
+  placeStores(S.stores);
+  S.stats = {}; for(const s of stats||[]) S.stats[s.store_id]=s;
+  S.fam = inFamily() ? await api.familyMembers() : [];
+  const ids = [S.me.id, ...S.fam.map(m=>m.id).filter(i=>i!==S.me.id)];
+  S.scope = await api.reviewsByUsers(ids);
+  S.famStats = computeStats(S.scope);
+  if(S.me.role==='admin'){ S.users = await api.adminUsers(); S.pending = S.users.filter(u=>u.admin_status==='pending').length; }
+}
+async function refresh(){ try{ await loadData(); }catch(e){ toast(errMsg(e)); } renderAll(); }
+
+function famBadge(){
+  const m=S.me; if(m.role==='admin') return '<span class="fam">관리자</span>';
+  if(m.family_status==='approved') return `<span class="fam">${esc(m.family_name)}${m.family_role==='leader'?' · 대표':''}</span>`;
+  if(m.family_status==='pending') return '<span class="fam wait">가족 승인 대기</span>';
+  return '<span class="fam wait">가족 없음</span>';
+}
+function shell(){
+  const admin = S.me.role==='admin';
+  const tabs = [['explore','지도·리스트',ic.map],['dash','대시보드',ic.dash]].concat(admin?[['admin','관리',ic.gear]]:[]);
+  root.innerHTML = `<div class="app">
+    ${DEMO?'<div class="demo-bar">미리보기 모드 · 예시 데이터이고 이 브라우저에만 저장돼요</div>':''}
+    <header class="top">
+      <div class="brand">${tk(38,26)}<b>떡볶이 성지순례 <em>100</em></b></div>
+      <nav class="tabs" id="tabs">${tabs.map(t=>`<button data-tab="${t[0]}">${t[2]}${t[1]}${t[0]==='admin'?'<span class="badge" data-pb hidden></span>':''}</button>`).join('')}</nav>
+      <button class="mebtn" id="meBtn"><span class="nk">${esc(S.me.nickname)}</span>${famBadge()}${ic.down}</button>
+    </header>
+    <main>
+      <section class="view" id="v-explore">
+        <div class="chips" id="chips"></div>
+        <div class="tools">
+          <div class="seg mv" id="mvSeg"><button data-mv="map">${ic.map}</button><button data-mv="list">${ic.list}</button></div>
+          <label class="search">${ic.search}<input id="q" placeholder="가게 이름 찾기" aria-label="가게 이름 찾기"></label>
+          <button class="fbtn" id="fBtn">${ic.filter}<span id="fLab">정렬·필터</span></button>
+        </div>
+        <div class="split" id="split" data-mv="map">
+          <div class="mapbox"><div id="map"></div><div class="mapnote" id="mapnote"></div></div>
+          <div class="listbox"><div class="lhead" id="lhead"></div><ul id="list"></ul></div>
+        </div>
+      </section>
+      <section class="view" id="v-dash" hidden><div class="dash" id="dash"></div></section>
+      ${admin?'<section class="view" id="v-admin" hidden><div class="adm" id="adm"></div></section>':''}
+    </main>
+    <nav class="bnav" id="bnav">${tabs.map(t=>`<button data-tab="${t[0]}">${t[2]}${t[1]}${t[0]==='admin'?'<span class="badge" data-pb hidden></span>':''}</button>`).join('')}</nav>
+  </div>`;
+  $$('[data-tab]').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+  $('#meBtn').onclick = openMenu;
+  $('#q').oninput = e => { S.q=e.target.value.trim(); renderList(); renderMarkers(); };
+  $('#fBtn').onclick = openFilter;
+  $('#mvSeg').onclick = e => { const b=e.target.closest('button'); if(!b) return; S.mv=b.dataset.mv; syncMv(); };
+  setTab(S.tab); syncMv(); initMap();
+}
+function syncMv(){ $('#split').dataset.mv=S.mv; $$('#mvSeg button').forEach(b=>b.classList.toggle('on',b.dataset.mv===S.mv)); if(S.mv==='map' && map) setTimeout(()=>map.invalidateSize(),30); }
+function setTab(t){
+  S.tab=t; $$('[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));
+  $$('.view').forEach(v=>v.hidden = v.id!=='v-'+t);
+  if(t==='explore' && map) setTimeout(()=>map.invalidateSize(),30);
+  if(t==='dash') renderDash();
+  if(t==='admin') renderAdmin();
+}
+function renderAll(){
+  renderChips(); renderList(); renderMarkers();
+  if(S.tab==='dash') renderDash(); if(S.tab==='admin') renderAdmin();
+  $$('[data-pb]').forEach(b=>{ b.hidden=!S.pending; b.textContent=S.pending; });
+  $('#fLab').textContent = (S.onlyNew||S.avg==='family'||S.sort!=='rank') ? '필터 적용중' : '정렬·필터';
+}
+
+/* ---------- 지역 칩 ---------- */
+function renderChips(){
+  const c = {}; S.stores.forEach(s=>c[s._sido]=(c[s._sido]||0)+1);
+  const list = [['전체',S.stores.length], ...SIDO_ORDER.filter(s=>c[s]).map(s=>[s,c[s]])];
+  $('#chips').innerHTML = list.map(([s,n])=>`<button class="chip${S.region===s?' on':''}" data-r="${s}">${s==='전국'?'전국·프랜차이즈':s}<b>${n}</b></button>`).join('');
+  $('#chips').onclick = e => { const b=e.target.closest('.chip'); if(!b) return; S.region=b.dataset.r; renderChips(); renderList(); renderMarkers(true); };
+}
+
+/* ---------- 리스트 ---------- */
+function visible(){
+  let l = S.stores.filter(s => S.region==='전체' || s._sido===S.region);
+  if(S.q) l = l.filter(s => (s.name+' '+(s.region||'')+' '+(s.style||'')).toLowerCase().includes(S.q.toLowerCase()));
+  if(S.onlyNew) l = l.filter(s => !mine(s.id));
+  if(S.sort==='taste') l = [...l].sort((a,b)=>((stat(b.id)||{}).taste||0)-((stat(a.id)||{}).taste||0) || a.rank-b.rank);
+  if(S.sort==='price') l = [...l].sort((a,b)=>((stat(b.id)||{}).price||0)-((stat(a.id)||{}).price||0) || a.rank-b.rank);
+  if(S.sort==='n') l = [...l].sort((a,b)=>((stat(b.id)||{}).n||0)-((stat(a.id)||{}).n||0) || a.rank-b.rank);
+  return l;
+}
+function tagsHtml(s, st){
+  const rv = st ? ATTRS.map(k=>st[k]&&tagOf(k,st[k])).filter(Boolean) : [];
+  const sty = s.style ? s.style.split(/[·,\/]/).map(x=>x.trim()).filter(x=>x && !rv.includes(x)).slice(0,2) : [];
+  return sty.map(x=>`<span class="tag g">#${esc(x)}</span>`).join('') + rv.map(t=>`<span class="tag">#${t}</span>`).join('');
+}
+function scoreHtml(st){
+  if(!st || !st.n) return '<span class="muted small">아직 평가 전이에요</span>';
+  return `<span class="sc">${star()}맛 <b>${f1(st.taste)}</b></span><span class="sc">${star()}가격 <b>${f1(st.price)}</b></span><span class="sc"><em>${st.n}명 평가</em></span>`;
+}
+function renderList(){
+  const l = visible();
+  const sortName = {rank:'순위순',taste:'맛 평점순',price:'가격 평점순',n:'평가 많은 순'}[S.sort];
+  $('#lhead').innerHTML = `<span><b>${S.region==='전체'?'전국':S.region==='전국'?'전국·프랜차이즈':S.region}</b> ${l.length}곳</span><span>${S.avg==='family'?'우리 가족':'전체'} 평균 · ${sortName}</span>`;
+  $('#list').innerHTML = l.length ? l.map(s=>{
+    const st = stat(s.id), done = mine(s.id);
+    return `<li class="it" data-id="${s.id}" tabindex="0"><span class="rk">${s.rank??'-'}</span><div class="bd"><div class="l1"><b>${esc(s.name)}</b><span class="rg">${esc(s.region||'전국')}</span></div><div class="l2">${scoreHtml(st)}</div><div class="tags">${tagsHtml(s,st)}</div></div>${done?'<span class="stamp">먹음</span>':''}</li>`;
+  }).join('') : `<li class="empty">${tk(80,54)}<p>조건에 맞는 가게가 없어요</p></li>`;
+  $('#list').onclick = e => { const li=e.target.closest('.it'); if(li) openStore(+li.dataset.id); };
+  $('#list').onkeydown = e => { const li=e.target.closest('.it'); if(li && e.key==='Enter') openStore(+li.dataset.id); };
+}
+
+/* ---------- 지도 ---------- */
+let map=null, layer=null;
+function initMap(){
+  if(typeof L==='undefined'){ $('#mapnote').textContent='지도를 불러오지 못했어요. 리스트로 확인해 주세요.'; return; }
+  map = L.map('map',{zoomControl:true,attributionControl:true,minZoom:6,maxZoom:18}).fitBounds(KOREA);
+  map.zoomControl.setPosition('topright');
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap © CARTO'}).addTo(map);
+  layer = L.layerGroup().addTo(map);
+}
+function renderMarkers(fly){
+  if(!map) return;
+  layer.clearLayers();
+  const l = visible(), pts=[];
+  let off=0;
+  for(const s of l){
+    if(!s._pos){ off++; continue; }
+    const done = !!mine(s.id);
+    const m = L.marker(s._pos,{icon:L.divIcon({className:'',html:`<div class="mk${done?' done':''}" style="position:relative">${tk(36,26)}</div>`,iconSize:[36,26],iconAnchor:[18,13]}),keyboard:true,title:s.name});
+    m.bindTooltip(esc(s.name),{direction:'top',offset:[0,-12]});
+    m.on('click',()=>openStore(s.id));
+    layer.addLayer(m); pts.push(s._pos);
+  }
+  const note = [];
+  if(off) note.push(`프랜차이즈·지역 미정 ${off}곳은 리스트에서 볼 수 있어요`);
+  note.push('위치는 시·군·구 기준 대략적인 자리예요');
+  $('#mapnote').textContent = note.join(' · ');
+  if(fly){
+    if(S.region==='전체') map.flyToBounds(KOREA,{duration:.6});
+    else if(pts.length) map.flyToBounds(L.latLngBounds(pts).pad(pts.length>1?.25:0),{maxZoom:pts.length>1?13:12,duration:.6});
+  }
+}
+
+/* ---------- 정렬·필터 ---------- */
+function openFilter(){
+  const m = modal(`${head('정렬·필터')}<div class="mb">
+    <div class="q"><div class="lb">정렬</div><div class="pick" data-k="sort">${[['rank','순위'],['taste','맛 평점'],['price','가격 평점'],['n','평가 많은 순']].map(o=>`<button data-v="${o[0]}" class="${S.sort===o[0]?'on':''}">${o[1]}</button>`).join('')}</div></div>
+    <div class="q"><div class="lb">평균 평점 기준</div><div class="pick" data-k="avg"><button data-v="all" class="${S.avg==='all'?'on':''}">참여한 모든 사람</button><button data-v="family" class="${S.avg==='family'?'on':''}">우리 가족만</button></div>${inFamily()?'':'<p class="small muted" style="margin:6px 0 0">가족에 합류하면 우리 가족 평균을 볼 수 있어요</p>'}</div>
+    <div class="q"><div class="lb">보기</div><div class="pick" data-k="onlyNew"><button data-v="0" class="${!S.onlyNew?'on':''}">전체</button><button data-v="1" class="${S.onlyNew?'on':''}">내가 안 먹어본 곳만</button></div></div>
+  </div><div class="mf"><button class="btn" data-close>적용</button></div>`,{cls:'sm'});
+  m.el.onclick = e => { const b=e.target.closest('.pick button'); if(!b) return; const k=b.parentElement.dataset.k; let v=b.dataset.v;
+    if(k==='avg' && v==='family' && !inFamily()) return toast('아직 가족에 속해 있지 않아요');
+    S[k] = k==='onlyNew' ? v==='1' : v; $$('button',b.parentElement).forEach(x=>x.classList.toggle('on',x===b)); renderAll(); };
+}
+
+/* ---------- 가게 상세 ---------- */
+async function openStore(id){
+  const s = byId(id); if(!s) return;
+  const m = modal(`${head(esc(s.name), `${ic.pin} ${esc(s.region||'전국')}${s.location?' · '+esc(s.location):''}`)}<div class="mb" id="sb"><p class="muted">불러오는 중…</p></div><div class="mf" id="sf"></div>`);
+  let rs=[]; try{ rs = await api.reviewsByStore(id); }catch(e){}
+  const st = computeStats(rs)[id], my = rs.find(r=>r.user_id===S.me.id);
+  const info = [['스타일',s.style],['특징',s.feature],['택배',s.delivery],['주문 경로',s.order_route],['배송비',s.shipping]].filter(x=>x[1]);
+  $('#sb',m.el).innerHTML = `
+    ${st?`<div class="avg"><div><b>${f1(st.taste)}</b><span>맛 평균</span></div><div><b>${f1(st.price)}</b><span>가격 평균</span></div><div><b>${st.revisit_n?Math.round(st.revisit_yes/st.revisit_n*100):0}%</b><span>또 먹고 싶다</span></div></div><div class="tags" style="margin:-4px 0 12px">${tagsHtml({},st)}</div>`:''}
+    <dl class="info">${info.map(x=>`<dt>${x[0]}</dt><dd>${esc(x[1])}</dd>`).join('')}<dt>찾아보기</dt><dd><a href="https://map.naver.com/p/search/${encodeURIComponent(s.name)}" target="_blank" rel="noopener" style="color:var(--red-d)">네이버 지도에서 보기</a></dd></dl>
+    <div class="sec-t">먹어본 사람들 ${rs.length?`<span class="muted small">${rs.length}명</span>`:''}</div>
+    ${rs.length ? rs.map(r=>`<div class="rv"><div class="h"><b>${esc(r.nickname||'익명')}${r.user_id===S.me.id?' <span class="tag">나</span>':''}</b><span class="small muted">${esc(r.eaten_on||'')} · ${r.method==='visit'?'현장방문':'택배주문'}</span></div>
+      <div class="l2 small" style="display:flex;gap:12px;margin-top:4px;flex-wrap:wrap"><span>맛 ${starsRow(r.taste)}</span><span>가격 ${starsRow(r.price)}</span>${r.revisit===true?'<span class="tag">또 먹을래요</span>':r.revisit===false?'<span class="tag g">한 번이면 충분</span>':''}</div>
+      ${r.comment?`<p class="c">“${esc(r.comment)}”</p>`:''}<div class="tags">${ATTRS.map(k=>r[k]?`<span class="tag g">#${tagOf(k,r[k])}</span>`:'').join('')}</div></div>`).join('')
+      : `<div class="empty" style="padding:18px">${tk(70,46)}<p>아직 아무도 기록하지 않았어요.<br>첫 도장을 찍어 보세요!</p></div>`}`;
+  $('#sf',m.el).innerHTML = `<button class="btn" id="wr">${my?'내 기록 수정하기':'먹었어요! 기록하기'}</button>`;
+  $('#wr',m.el).onclick = () => { m.close(); openReview(s, my); };
+}
+
+/* ---------- 평가 입력 ---------- */
+function openReview(s, cur){
+  const v = cur ? {...cur} : {eaten_on:today(), method:'delivery', taste:0, price:0, revisit:null};
+  const pick = (k, opts) => `<div class="pick" data-k="${k}">${opts.map(o=>`<button type="button" data-v="${o[0]}" class="${String(v[k])===String(o[0])?'on':''}">${o[1]}</button>`).join('')}</div>`;
+  const rate = k => `<div class="rate" data-k="${k}">${[1,2,3,4,5].map(i=>`<button type="button" data-v="${i}" class="${i<=v[k]?'on':''}" aria-label="${i}점">${star()}</button>`).join('')}</div>`;
+  const m = modal(`${head(cur?'내 기록 수정':'먹은 기록 남기기', esc(s.name))}<form class="mb" id="rf">
+    <div class="two"><div class="q"><div class="lb">먹은 날</div><input class="inp" type="date" name="d" value="${esc(v.eaten_on||today())}" max="${today()}"></div>
+    <div class="q"><div class="lb">주문 방식</div>${pick('method',[['delivery','택배주문'],['visit','현장방문']])}</div></div>
+    <div class="two"><div class="q"><div class="lb">맛</div>${rate('taste')}</div><div class="q"><div class="lb">가격</div>${rate('price')}</div></div>
+    ${ATTRS.map(k=>`<div class="q"><div class="lb">${OPT[k].label}</div>${pick(k,OPT[k].o)}</div>`).join('')}
+    <div class="q"><div class="lb">한줄평 <span class="cnt" id="cc">0/30</span></div><input class="inp" name="c" maxlength="30" placeholder="30자 이내로 짧게" value="${esc(v.comment||'')}"></div>
+    <div class="q"><div class="lb">다시 먹고 싶나요?</div>${pick('revisit',[[true,'또 먹을래요'],[false,'한 번이면 충분']])}</div>
+    <div class="err" id="re"></div>
+  </form><div class="mf">${cur?'<button class="btn line" id="del" style="flex:0 0 auto">삭제</button>':''}<button class="btn" id="sv">저장하기</button></div>`);
+  const F = $('#rf',m.el);
+  const cc = () => $('#cc',m.el).textContent = `${F.c.value.length}/30`; cc(); F.c.oninput = cc;
+  F.onsubmit = e => e.preventDefault();
+  F.onclick = e => {
+    const b = e.target.closest('button[data-v]'); if(!b) return;
+    const box = b.parentElement, k = box.dataset.k; let val = b.dataset.v;
+    if(box.classList.contains('rate')){ val=+val; v[k]=val; $$('button',box).forEach(x=>x.classList.toggle('on',+x.dataset.v<=val)); return; }
+    if(k==='revisit') val = val==='true';
+    v[k] = (String(v[k])===String(val) && k!=='method') ? null : val;
+    $$('button',box).forEach(x=>x.classList.toggle('on', String(v[k])===x.dataset.v));
+  };
+  $('#sv',m.el).onclick = async () => {
+    const E = $('#re',m.el);
+    if(!v.taste || !v.price) return E.textContent='맛과 가격 별점을 매겨 주세요';
+    const r = {store_id:s.id, eaten_on:F.d.value||today(), method:v.method, taste:v.taste, price:v.price, comment:F.c.value.trim().slice(0,30)||null, revisit:v.revisit===undefined?null:v.revisit};
+    ATTRS.forEach(k=>r[k]=v[k]||null);
+    $('#sv',m.el).disabled=true;
+    try{ await api.saveReview(r); m.close(); toast(cur?'기록을 고쳤어요':'도장 쾅! 기록했어요'); await refresh(); }
+    catch(err){ E.textContent=errMsg(err); $('#sv',m.el).disabled=false; }
+  };
+  if(cur) $('#del',m.el).onclick = async () => {
+    const b=$('#del',m.el); if(b.dataset.sure!=='1'){ b.dataset.sure='1'; b.textContent='정말 삭제?'; return; }
+    try{ await api.deleteReview(s.id); m.close(); toast('기록을 지웠어요'); await refresh(); }catch(err){ toast(errMsg(err)); }
+  };
+}
+
+/* ---------- 대시보드 ---------- */
+function renderDash(){
+  const total = S.stores.length || 100;
+  const myN = new Set(S.scope.filter(r=>r.user_id===S.me.id).map(r=>r.store_id)).size;
+  const famN = new Set(S.scope.map(r=>r.store_id)).size;
+  const fam = inFamily();
+  // 목표 페이스
+  const st = new Date(CONFIG.START+'T00:00:00'), now = new Date();
+  const months = Math.max(1,(now.getFullYear()-st.getFullYear())*12 + now.getMonth()-st.getMonth() + 1);
+  const goal = Math.min(total, months*CONFIG.PER_MONTH), done = fam?famN:myN, diff = done-goal;
+  const ym = today().slice(0,7);
+  const thisMonth = new Set(S.scope.filter(r=>(fam||r.user_id===S.me.id) && (r.eaten_on||'').startsWith(ym)).map(r=>r.store_id)).size;
+  const paceMsg = diff>0 ? `목표보다 ${diff}곳 앞서고 있어요!` : diff===0 ? '딱 목표대로 가고 있어요' : `목표까지 ${-diff}곳 더 먹어야 해요`;
+  // 최고 평점
+  const ranked = Object.values(S.stats).filter(x=>x.n>0 && byId(x.store_id)).sort((a,b)=>b.taste-a.taste || b.n-a.n).slice(0,3);
+  const again = Object.values(S.stats).filter(x=>x.revisit_yes>0 && byId(x.store_id)).sort((a,b)=>b.revisit_yes-a.revisit_yes || (b.revisit_yes/b.revisit_n)-(a.revisit_yes/a.revisit_n))[0];
+  $('#dash').innerHTML = `<div class="dgrid">
+    <div class="card c-count"><h3>정복 현황 <span class="small">전체 ${total}곳</span></h3>
+      <div class="pair">
+        <div><div class="lb">나</div><div class="big">${myN}<small> / ${total}</small></div><div class="bar"><i style="width:${myN/total*100}%"></i></div></div>
+        <div><div class="lb">${fam?esc(S.me.family_name):'우리 가족'}</div><div class="big" style="color:#D99A00">${fam?famN:'-'}<small> / ${total}</small></div><div class="bar y"><i style="width:${fam?famN/total*100:0}%"></i></div>${fam?'':'<p class="small muted" style="margin:6px 0 0">가족에 합류하면 보여요</p>'}</div>
+      </div>${tk(120,82,'deco')}</div>
+    <div class="card"><h3>목표 페이스</h3><div class="pace">
+      <div class="big">${diff>0?'+':''}${diff}</div><div class="msg">${paceMsg}</div>
+      <div class="small muted">${fam?'가족':'나'} ${done}곳 · 지금까지 목표 ${goal}곳 (한 달 ${CONFIG.PER_MONTH}곳)<br>이번 달 ${thisMonth} / ${CONFIG.PER_MONTH}곳</div></div></div>
+    <div class="card"><h3>또 먹고 싶다 1위</h3>${again?`<div class="again" data-id="${again.store_id}"><div class="nm">${esc(byId(again.store_id).name)}</div><div class="small muted">${esc(byId(again.store_id).region||'')}</div><div style="margin-top:10px"><span class="big" style="font-size:clamp(30px,4vw,44px)">${Math.round(again.revisit_yes/again.revisit_n*100)}%</span> <span class="muted small">${again.revisit_n}명 중 ${again.revisit_yes}명</span></div></div>`:'<div class="again muted">아직 기록이 없어요</div>'}</div>
+    <div class="card c-top"><h3>최고 평점 TOP 3 <span class="small">맛 평균 · 전체</span></h3>
+      ${ranked.length?`<ol class="top3">${ranked.map((x,i)=>`<li data-id="${x.store_id}"><span class="medal">${i+1}</span><b>${esc(byId(x.store_id).name)}<br><span class="small muted" style="font-family:'Gowun Dodum'">${esc(byId(x.store_id).region||'전국')} · ${x.n}명</span></b><span class="v">${f1(x.taste)}</span></li>`).join('')}</ol>`:'<p class="muted">첫 평가를 기다리는 중이에요</p>'}</div>
+  </div>`;
+  $('#dash').onclick = e => { const t=e.target.closest('[data-id]'); if(t) openStore(+t.dataset.id); };
+}
+
+/* ---------- 관리 ---------- */
+function renderAdmin(){
+  const us = (S.users||[]).filter(u=>u.role!=='admin');
+  const pend = us.filter(u=>u.admin_status==='pending');
+  const fams = new Set(us.filter(u=>u.family_status==='approved').map(u=>u.family_name)).size;
+  const pill = u => u.admin_status==='pending'?'<span class="pill wait">승인 대기</span>':u.admin_status==='rejected'?'<span class="pill no">거절</span>':'<span class="pill ok">승인</span>';
+  const fpill = u => !u.family_name?'-':`${esc(u.family_name)} ${u.family_role==='leader'?'(대표)':''} ${u.family_status==='pending'?'<span class="pill wait">대기</span>':u.family_status==='rejected'?'<span class="pill no">거절</span>':''}`;
+  $('#adm').innerHTML = `<div class="agrid">
+    <div class="acard"><h3>가입 요청 ${pend.length?`<span class="badge">${pend.length}</span>`:''}</h3>
+      ${pend.length?pend.map(u=>`<div class="req"><b>${esc(u.nickname)} <span class="small muted" style="font-family:'Gowun Dodum'">@${esc(u.username)} · ${u.family_role==='leader'?'새 가족 '+esc(u.family_name):esc(u.family_name||'')+' 참여'}</span></b><button class="btn sm line" data-no="${u.id}">거절</button><button class="btn sm" data-yes="${u.id}">승인</button></div>`).join(''):'<p class="muted">새 요청이 없어요</p>'}
+      <h3 style="margin-top:22px">회원 ${us.length}명 · 가족 ${fams}개</h3>
+      <div class="scroll"><table class="utable"><thead><tr><th>닉네임</th><th>아이디</th><th>가족</th><th>상태</th></tr></thead><tbody>${us.map(u=>`<tr><td>${esc(u.nickname)}</td><td class="muted">${esc(u.username)}</td><td>${fpill(u)}</td><td>${pill(u)}</td></tr>`).join('')}</tbody></table></div>
+    </div>
+    <div>
+      <div class="acard"><h3>가게 목록 엑셀 업로드</h3>
+        <p class="small muted" style="margin-top:0">지금 ${S.stores.length}곳. 같은 가게명은 정보만 바뀌고 평점은 그대로 남아요. 열: 순위·가게명·지역·위치·스타일·특징·택배·주문 경로·최소주문·배송비·근거 (위도·경도 열이 있으면 정확한 위치로 표시)</p>
+        <label class="drop"><input type="file" id="xf" accept=".xlsx,.xls,.csv" hidden>${tk(64,42)}<br>엑셀 파일 고르기</label>
+        <div id="xr" class="small" style="margin-top:10px"></div></div>
+      <div class="acard" style="margin-top:14px"><h3>관리자 비밀번호 변경</h3>
+        <form id="pwf" class="two"><input class="inp" type="password" name="p" placeholder="새 비밀번호 (4자 이상)" autocomplete="new-password"><button class="btn">변경</button></form></div>
+      ${DEMO?'<div class="acard" style="margin-top:14px"><h3>미리보기 데이터</h3><button class="btn line" id="rst">예시 데이터로 초기화</button></div>':''}
+    </div></div>`;
+  $('#adm').onclick = async e => {
+    const y=e.target.closest('[data-yes]'), n=e.target.closest('[data-no]'); if(!y&&!n) return;
+    try{ await api.adminDecide((y||n).dataset[y?'yes':'no'], !!y); toast(y?'승인했어요':'거절했어요'); await refresh(); }catch(err){ toast(errMsg(err)); }
+  };
+  $('#xf').onchange = e => e.target.files[0] && uploadExcel(e.target.files[0]);
+  $('#pwf').onsubmit = async e => { e.preventDefault(); const p=e.target.p.value; if(p.length<4) return toast('4자 이상으로 적어 주세요');
+    try{ await api.changePassword(p); e.target.reset(); toast('비밀번호를 바꿨어요'); }catch(err){ toast(errMsg(err)); } };
+  if(DEMO) $('#rst').onclick = () => api.reset();
+}
+async function uploadExcel(file){
+  const out = $('#xr');
+  if(typeof XLSX==='undefined'){ out.textContent='엑셀 도구를 불러오지 못했어요. 새로고침 후 다시 시도해 주세요.'; return; }
+  try{
+    const wb = XLSX.read(await file.arrayBuffer());
+    const ws = wb.Sheets['떡볶이 100'] || wb.Sheets[wb.SheetNames[0]];
+    const raw = XLSX.utils.sheet_to_json(ws,{defval:null});
+    const MAP = {'순위':'rank','가게명':'name','지역':'region','위치':'location','스타일':'style','특징':'feature','택배':'delivery','주문 경로':'order_route','주문경로':'order_route','최소주문·배송비':'shipping','배송비':'shipping','근거':'source','위도':'lat','경도':'lng'};
+    const rows = [];
+    for(const r of raw){
+      const o = {};
+      for(const [k,v] of Object.entries(r)){ const key = MAP[String(k).trim()]; if(!key) continue; let val = typeof v==='string'?v.trim():v; if(val==='—'||val==='-'||val==='') val=null; o[key]=val; }
+      if(!o.name) continue;
+      if(o.rank!=null) o.rank = parseInt(o.rank)||null;
+      if(o.lat!=null) o.lat=+o.lat||null; if(o.lng!=null) o.lng=+o.lng||null;
+      rows.push(o);
+    }
+    if(!rows.length){ out.textContent='가게명 열을 찾지 못했어요. 첫 줄 제목을 확인해 주세요.'; return; }
+    out.textContent = `${rows.length}곳 올리는 중…`;
+    await api.upsertStores(rows);
+    out.innerHTML = `<b style="color:var(--ok)">${rows.length}곳을 반영했어요</b>`;
+    await refresh();
+  }catch(err){ out.textContent = '업로드 실패: '+errMsg(err); }
+}
+
+/* ---------- 내 메뉴 ---------- */
+function openMenu(e){
+  e.stopPropagation(); const old=$('.menu'); if(old){ old.remove(); return; }
+  const r = $('#meBtn').getBoundingClientRect(); const m=S.me;
+  const canRequest = m.role!=='admin' && (!m.family_status || m.family_status==='rejected');
+  const el = document.createElement('div'); el.className='menu';
+  el.style.top=(r.bottom+6)+'px'; el.style.right=Math.max(8,innerWidth-r.right)+'px';
+  el.innerHTML = `<div class="who"><b>${esc(m.nickname)}</b>${m.role==='admin'?'관리자':inFamily()?`${esc(m.family_name)} ${m.family_role==='leader'?'가족대표':'가족'}${S.fam.length?` · ${S.fam.map(x=>esc(x.nickname)).join(', ')}`:''}`:m.family_status==='pending'?`${esc(m.family_name)} 가족 승인 대기 중`:'아직 가족이 없어요'}</div>
+    ${canRequest?'<button data-a="fam">가족 신청하기</button>':''}
+    ${m.family_role==='leader'&&inFamily()?'<button data-a="req">가족 참여 요청 보기</button>':''}
+    ${m.role!=='admin'?'<button data-a="pw">비밀번호 변경</button>':''}
+    <button data-a="out">로그아웃</button>`;
+  document.body.appendChild(el);
+  const off = ev => { if(!el.contains(ev.target)){ el.remove(); document.removeEventListener('click',off);} };
+  setTimeout(()=>document.addEventListener('click',off));
+  el.onclick = async ev => { const a=ev.target.closest('[data-a]'); if(!a) return; el.remove(); document.removeEventListener('click',off);
+    if(a.dataset.a==='out'){ await api.logout(); S.me=null; map=null; showLogin(); }
+    if(a.dataset.a==='fam') familyRequestDialog();
+    if(a.dataset.a==='req') leaderRequests(true);
+    if(a.dataset.a==='pw') pwDialog();
+  };
+}
+function pwDialog(){
+  const m = modal(`${head('비밀번호 변경')}<form class="mb" id="pf"><label class="field"><span>새 비밀번호 (4자 이상)</span><input class="inp" type="password" name="p" autocomplete="new-password"></label><label class="field"><span>한 번 더</span><input class="inp" type="password" name="p2" autocomplete="new-password"></label><div class="err" id="pe"></div><button class="btn block">바꾸기</button></form>`,{cls:'sm'});
+  $('#pf',m.el).onsubmit = async e => { e.preventDefault(); const f=e.target;
+    if(f.p.value.length<4) return $('#pe',m.el).textContent='4자 이상으로 적어 주세요';
+    if(f.p.value!==f.p2.value) return $('#pe',m.el).textContent='두 비밀번호가 달라요';
+    try{ await api.changePassword(f.p.value); m.close(); toast('비밀번호를 바꿨어요'); }catch(err){ $('#pe',m.el).textContent=errMsg(err); } };
+}
+function familyRequestDialog(){
+  return new Promise(async res=>{
+    let fams=[]; try{ fams = await api.families(); }catch(e){}
+    let mode = fams.length?'join':'new';
+    const m = modal(`${head('가족 신청하기')}<div class="mb"><div class="seg" id="fm2" style="margin-bottom:12px"><button data-m="join">기존 가족 참여</button><button data-m="new">새 가족 만들기</button></div><div id="fb2"></div><div class="err" id="fe2"></div><button class="btn block" id="fs2">신청하기</button></div>`,{cls:'sm',onClose:res});
+    const draw = () => { $$('#fm2 button',m.el).forEach(b=>b.classList.toggle('on',b.dataset.m===mode));
+      $('#fb2',m.el).innerHTML = mode==='new'?'<input class="inp" id="fn2" maxlength="12" placeholder="가족명">':`<select class="inp" id="fi2"><option value="">가족을 골라 주세요</option>${fams.map(f=>`<option value="${esc(f.id)}">${esc(f.name)}</option>`).join('')}</select>`; };
+    $('#fm2',m.el).onclick = e => { const b=e.target.closest('button'); if(b){ mode=b.dataset.m; draw(); } }; draw();
+    $('#fs2',m.el).onclick = async () => {
+      const E=$('#fe2',m.el), name=mode==='new'?$('#fn2',m.el).value.trim():'', fid=mode==='join'?$('#fi2',m.el).value:'';
+      if(mode==='new'&&name.length<2) return E.textContent='가족명을 2자 이상 적어 주세요';
+      if(mode==='join'&&!fid) return E.textContent='가족을 골라 주세요';
+      try{ await api.requestFamily(mode,name,fid); m.close(); S.me = await api.current(); toast(mode==='new'?'새 가족을 만들었어요':'가족대표에게 참여 요청을 보냈어요'); shell(); await refresh(); }
+      catch(err){ E.textContent=errMsg(err); }
+    };
+  });
+}
+
+/* ---------- 로그인 직후 알림 ---------- */
+async function leaderRequests(manual){
+  let reqs=[]; try{ reqs = await api.familyRequests(); }catch(e){}
+  if(!reqs.length){ if(manual) toast('새 참여 요청이 없어요'); return; }
+  await new Promise(res=>{
+    const m = modal(`${head('가족 참여 신청이 왔어요', esc(S.me.family_name)+' 가족')}<div class="mb" id="lr">${reqs.map(r=>`<div class="req" data-r="${r.id}"><b>${esc(r.nickname)}</b><button class="btn sm line" data-no>거절</button><button class="btn sm" data-yes>승인</button></div>`).join('')}</div>`,{cls:'sm',onClose:res});
+    $('#lr',m.el).onclick = async e => { const b=e.target.closest('[data-yes],[data-no]'); if(!b) return; const row=b.closest('.req'); const yes=b.hasAttribute('data-yes');
+      try{ await api.leaderDecide(row.dataset.r, yes); row.innerHTML=`<b>${row.querySelector('b').textContent}</b><span class="pill ${yes?'ok':'no'}">${yes?'승인했어요':'거절했어요'}</span>`;
+        if(!$$('[data-yes]',m.el).length) setTimeout(()=>{ m.close(); refresh(); },700); }catch(err){ toast(errMsg(err)); } };
+  });
+}
+async function runNotices(){
+  const m = S.me;
+  if(m.notice==='family_approved'){ await api.clearNotice().catch(()=>{}); await notice(`${esc(m.family_name)} 가족이 되었어요!`, '이제 우리 가족 기록과 평균 평점을 함께 볼 수 있어요.'); m.notice=null; }
+  else if(m.notice==='family_rejected'){ await api.clearNotice().catch(()=>{}); m.notice=null;
+    await notice('가족 참여가 거절되었어요', '다른 가족을 고르거나 새 가족을 만들 수 있어요.', '가족 다시 고르기'); await familyRequestDialog(); }
+  if(m.role==='admin' && S.pending){ await new Promise(res=>{ const d=modal(`<div class="mb ctr" style="padding-top:22px"><svg class="note-pic"><use href="#bowl"/></svg><h2>가입 요청 ${S.pending}건</h2><p class="muted">승인을 기다리는 사람이 있어요.</p><div style="display:flex;gap:8px"><button class="btn line" style="flex:1" data-close>나중에</button><button class="btn" style="flex:1" id="go">확인하러 가기</button></div></div>`,{cls:'sm',onClose:res}); $('#go',d.el).onclick=()=>{ d.close(); setTab('admin'); }; }); }
+  if(m.family_role==='leader' && inFamily()) await leaderRequests(false);
+}
+
+/* ---------- 시작 ---------- */
+(async function boot(){
+  try{
+    if(!DEMO && typeof supabase==='undefined') throw new Error('서버 연결 도구를 불러오지 못했어요. 새로고침해 주세요.');
+    api = DEMO ? LocalAPI() : SupaAPI();
+    S.me = await api.current().catch(()=>null);
+    S.me ? enter() : showLogin();
+  }catch(e){ root.innerHTML = `<div class="auth"><div class="auth-card ctr"><h2>앗, 문제가 생겼어요</h2><p class="muted">${esc(errMsg(e))}</p></div></div>`; }
+})();
+}
+</script>
+</body>
+</html>
