@@ -198,6 +198,7 @@ main{flex:1;position:relative;overflow:hidden}
 .leaflet-container{overflow:hidden;touch-action:none;font:12px/1.4 system-ui,sans-serif;background:#F4EEE6;outline:0}
 .leaflet-tile,.leaflet-marker-icon{user-select:none;-webkit-user-drag:none}
 .leaflet-container img.leaflet-tile{max-width:none!important;max-height:none!important;width:256px;height:256px}
+.leaflet-tile-pane{filter:saturate(.7) brightness(1.03)}
 .leaflet-tile{visibility:hidden}.leaflet-tile-loaded{visibility:inherit}
 .leaflet-pane{z-index:400}.leaflet-tile-pane{z-index:200}.leaflet-overlay-pane{z-index:400}.leaflet-shadow-pane{z-index:500}.leaflet-marker-pane{z-index:600}.leaflet-tooltip-pane{z-index:650}.leaflet-popup-pane{z-index:700}
 .leaflet-zoom-animated{transform-origin:0 0}
@@ -736,7 +737,7 @@ function initMap(){
   if(typeof L==='undefined'){ $('#mapnote').textContent='지도를 불러오지 못했어요. 리스트로 확인해 주세요.'; return; }
   map = L.map('map',{zoomControl:true,attributionControl:true,minZoom:6,maxZoom:18}).fitBounds(KOREA);
   map.zoomControl.setPosition('topright');
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap © CARTO'}).addTo(map);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
   layer = L.layerGroup().addTo(map);
 }
 function renderMarkers(fly){
