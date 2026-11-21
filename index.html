@@ -215,6 +215,9 @@ main{flex:1;position:relative;overflow:hidden}
 .leaflet-bar a+a{border-top:1px solid var(--line)}
 .leaflet-control-attribution{background:rgba(255,255,255,.75);padding:0 6px;font-size:10.5px;margin:0!important;color:#666}
 .leaflet-control-attribution a{color:#666}
+.leaflet-bar a.locbtn{display:grid;place-items:center;color:#2F7BEA}
+.me-dot{width:18px;height:18px;border-radius:50%;background:#2F7BEA;border:3px solid #fff;box-shadow:0 0 0 0 rgba(47,123,234,.5);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 14px rgba(47,123,234,0)}100%{box-shadow:0 0 0 0 rgba(47,123,234,0)}}
 .leaflet-tooltip{position:absolute;padding:4px 9px;background:#fff;border-radius:8px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.18);font:14px 'Jua',sans-serif;color:var(--ink);pointer-events:none}
 
 /* ---------- 모바일 ---------- */
@@ -363,6 +366,7 @@ const ic = {
   search:'<svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
   filter:'<svg class="i" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></svg>',
   down:'<svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px"><path d="m6 9 6 6 6-6"/></svg>',
+  loc:'<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>',
   pin:'<svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>'
 };
 const star = (cls='st') => `<svg class="${cls}"><use href="#st"/></svg>`;
@@ -739,6 +743,22 @@ function initMap(){
   map.zoomControl.setPosition('topright');
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
   layer = L.layerGroup().addTo(map);
+  const Loc = L.Control.extend({options:{position:'topright'}, onAdd(){
+    const box = L.DomUtil.create('div','leaflet-bar');
+    box.innerHTML = `<a href="#" role="button" class="locbtn" title="내 위치" aria-label="내 위치 보기">${ic.loc}</a>`;
+    L.DomEvent.disableClickPropagation(box);
+    box.firstChild.onclick = e => { e.preventDefault(); toast('내 위치를 찾는 중이에요'); map.locate({setView:true, maxZoom:13, enableHighAccuracy:true, timeout:12000}); };
+    return box; }});
+  map.addControl(new Loc());
+  let meMk=null, meAcc=null;
+  map.on('locationfound', e => {
+    if(!meMk){
+      meAcc = L.circle(e.latlng,{radius:e.accuracy, color:'#2F7BEA', weight:1, fillOpacity:.08, interactive:false}).addTo(map);
+      meMk = L.marker(e.latlng,{icon:L.divIcon({className:'',html:'<div class="me-dot"></div>',iconSize:[18,18],iconAnchor:[9,9]}), zIndexOffset:1000}).addTo(map);
+      meMk.bindTooltip('내 위치',{direction:'top',offset:[0,-10]});
+    } else { meMk.setLatLng(e.latlng); meAcc.setLatLng(e.latlng).setRadius(e.accuracy); }
+  });
+  map.on('locationerror', e => toast(e.code===1 ? '위치 권한을 허용해 주세요 (브라우저 설정에서 바꿀 수 있어요)' : '위치를 찾지 못했어요. 잠시 후 다시 눌러 주세요'));
 }
 function renderMarkers(fly){
   if(!map) return;
